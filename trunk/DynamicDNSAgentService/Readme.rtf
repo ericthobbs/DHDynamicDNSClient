@@ -1,0 +1,35 @@
+﻿Readme for DynamicDNSAgentService version 1.0
+
+DynamicDNSAgentService is a windows service that automatically updates a specific dns record
+every 4 hours (configurable) using your Dreamhost account API and dreamhost hosted domain.
+
+Please note that this software only works if you have a Dreamhost domain and you have setup an
+API key that has all three dns commands (dns-{list_domain,remove_domain,add_domain}). To get your
+API key, goto https://panel.dreamhost.com.
+
+Also note that this software contacts an external website to get your computers external ip address.
+By default this host is badpointer.net. This is configurable via the configuration file and a sample
+php script to run on your own server is provided as 'external_ip.php' If you want to change this before
+the service is started, do not choose to start the service during setup.
+
+Zone is optional, but if set it must match the zone of the domain being updated. e.g. lets say you want a 
+domain named "myhost.example.com", the zone would be "example.com".
+
+DynamicDNSAgent logs events to the event log. Check there to check for proper operation (or lack thereof).
+
+Version Information:
+	1.0: (10/23/2011)
+		Inital Release
+	1.1:
+		Changed the location of the external ip script on the server.
+	1.2:
+		Client now autodetects the ip address type and updates the correct record (A or AAAA) automatically.
+	1.2.1:
+		Minor code cleanup. Prepped source.
+	1.2.2: (10/24/2011)
+		Improved event log access. The service now creates and deletes its own log "DDNS Client" upon installation. 
+			You will need to restart the computer to for the logs to update properly in some cases.
+
+DynamicDNSAgentService is copyright 2011 Eric Hobbs.
+
+This software is NOT supported or endorsed by Dreamhost.
