@@ -1,0 +1,12 @@
+[Unit]
+Description=DreamHost Dynamic DNS Agent
+After=syslog.target
+
+[Service]
+Type=forking
+PIDFile=/tmp/.dhdnsagent.pid
+ExecStart=/bin/DHDNSAgent
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
