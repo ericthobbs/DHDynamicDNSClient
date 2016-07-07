@@ -70,7 +70,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Windows\Dreamhost.Api\Dreamhost.Api.csproj">
+    <ProjectReference Include="..\Dreamhost.Api\Dreamhost.Api.csproj">
       <Project>{077c02eb-0455-4fe5-9343-93b80e873c9a}</Project>
       <Name>Dreamhost.Api</Name>
     </ProjectReference>

@@ -1,0 +1,12 @@
+C:\Users\erict\Documents\GitHubVisualStudio\DHDynamicDNSClient\Windows\DreamhostApi.Test\bin\Debug\DreamhostApi.Test.dll
+C:\Users\erict\Documents\GitHubVisualStudio\DHDynamicDNSClient\Windows\DreamhostApi.Test\bin\Debug\DreamhostApi.Test.pdb
+C:\Users\erict\Documents\GitHubVisualStudio\DHDynamicDNSClient\Windows\DreamhostApi.Test\bin\Debug\Dreamhost.Api.dll
+C:\Users\erict\Documents\GitHubVisualStudio\DHDynamicDNSClient\Windows\DreamhostApi.Test\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\erict\Documents\GitHubVisualStudio\DHDynamicDNSClient\Windows\DreamhostApi.Test\bin\Debug\log4net.dll
+C:\Users\erict\Documents\GitHubVisualStudio\DHDynamicDNSClient\Windows\DreamhostApi.Test\bin\Debug\Dreamhost.Api.pdb
+C:\Users\erict\Documents\GitHubVisualStudio\DHDynamicDNSClient\Windows\DreamhostApi.Test\bin\Debug\log4net.xml
+C:\Users\erict\Documents\GitHubVisualStudio\DHDynamicDNSClient\Windows\DreamhostApi.Test\obj\Debug\DreamhostApi.Test.csprojResolveAssemblyReference.cache
+C:\Users\erict\Documents\GitHubVisualStudio\DHDynamicDNSClient\Windows\DreamhostApi.Test\obj\Debug\DreamhostApi.Test.dll
+C:\Users\erict\Documents\GitHubVisualStudio\DHDynamicDNSClient\Windows\DreamhostApi.Test\obj\Debug\DreamhostApi.Test.pdb
+C:\Users\erict\Documents\GitHubVisualStudio\DHDynamicDNSClient\Windows\DreamhostApi.Test\bin\Debug\Newtonsoft.Json.dll
+C:\Users\erict\Documents\GitHubVisualStudio\DHDynamicDNSClient\Windows\DreamhostApi.Test\bin\Debug\Newtonsoft.Json.xml
