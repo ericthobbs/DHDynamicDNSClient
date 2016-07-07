@@ -1,33 +1,38 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using DnsClientServiceAgent.Extensions;
 using log4net;
+using Newtonsoft.Json;
 
-namespace DnsClientServiceAgent
+namespace Dreamhost.Api
 {
     /// <summary>
     /// Dreamhost Api Client (C#)
     /// </summary>
-    class DreamhostApiClient
+    public class DreamhostApiClient
     {
         private static readonly ILog Logger = LogManager.GetLogger(typeof(DreamhostApiClient));
-        private readonly string _apiServer;
-        private readonly string _apikey;
+
+        private readonly string apiServer;
+        private readonly string apikey;
+
+        private const string Format = "json";
 
         public DreamhostApiClient(string apiserver, string apikey)
         {
             if (string.IsNullOrEmpty(apikey))
                 throw new ArgumentNullException(nameof(apikey));
 
-            _apikey = apikey;
+            this.apikey = apikey;
 
             if (string.IsNullOrEmpty(apiserver))
                 throw new ArgumentNullException(nameof(apiserver));
 
-            _apiServer = apiserver;
+            apiServer = apiserver;
         }
 
         public async Task<DnsListResult> DnsListRecords()
@@ -66,6 +71,27 @@ namespace DnsClientServiceAgent
         public async Task<bool> CheckKeyAccess(string[] commands)
         {
             var response = await GetApiResult("api-list_accessible_cmds", null);
+
+            var obj = JsonConvert.DeserializeObject<ApiResult>(response);
+
+            if (obj.Result == "success")
+            {
+                bool exists = true;
+                foreach (var cmds in obj.Data)
+                {
+                    var d = new AvailableCommandData
+                    {
+                        cmd = cmds.cmd,
+                        args = cmds.args,
+                        optargs = cmds.optargs,
+                        order = cmds.order
+                    };
+                    if (!commands.Contains(d.cmd))
+                        exists = false;
+                }
+                return exists;
+            }
+
             return false;
         }
 
@@ -77,7 +103,7 @@ namespace DnsClientServiceAgent
         private Uri BuildUri(string command, IDictionary<string, string> parameters)
         {
             var uri = new Uri(
-                $"{_apiServer}?key={_apikey}&command={command}&uuid={GenerateUuid()}&{parameters.ToQueryString()}");
+                $"{apiServer}?key={apikey}&cmd={command}&uuid={GenerateUuid()}&format={Format}{parameters.ToQueryString()}");
 
             Logger.Debug("Url built: " + uri);
 
@@ -87,7 +113,7 @@ namespace DnsClientServiceAgent
         private Task<string> GetApiResult(string command, IDictionary<string, string> additionalParameters)
         {
             var client = new HttpClient();
-            return client.GetStringAsync(new Uri(_apiServer));
+            return client.GetStringAsync(BuildUri(command, additionalParameters));
         }
     }
 }

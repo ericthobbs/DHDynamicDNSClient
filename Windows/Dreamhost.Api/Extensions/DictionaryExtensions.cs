@@ -17,7 +17,7 @@ namespace DnsClientServiceAgent.Extensions
             {
                 sb.Append($"&{p}={collection[p]}");
             }
-            return sb.ToString().Substring(1);
+            return sb.ToString();
         }
     }
 }

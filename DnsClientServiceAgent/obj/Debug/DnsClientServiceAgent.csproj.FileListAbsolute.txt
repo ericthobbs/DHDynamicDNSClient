@@ -1,2 +1,4 @@
 C:\Users\erich\Documents\GitHubVisualStudio\DHDynamicDNSClient\DnsClientServiceAgent\bin\Debug\DnsClientServiceAgent.exe.config
 C:\Users\erich\Documents\GitHubVisualStudio\DHDynamicDNSClient\DnsClientServiceAgent\obj\Debug\DnsClientServiceAgent.csprojResolveAssemblyReference.cache
+C:\Users\erict\Documents\GitHubVisualStudio\DHDynamicDNSClient\DnsClientServiceAgent\bin\Debug\DnsClientServiceAgent.exe.config
+C:\Users\erict\Documents\GitHubVisualStudio\DHDynamicDNSClient\DnsClientServiceAgent\obj\Debug\DnsClientServiceAgent.csprojResolveAssemblyReference.cache

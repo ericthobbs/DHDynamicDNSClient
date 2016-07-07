@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DnsClientServiceAgent
+namespace Dreamhost.Api
 {
     public struct DnsRecord
     {

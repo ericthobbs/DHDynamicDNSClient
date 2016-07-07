@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DnsClientServiceAgent
+namespace Dreamhost.Api
 {
-    public class ApiResult
+    public class DnsListResult : ApiResult
     {
-        public string Result { get; set; }
+        public IList<DnsRecord> Records { get; set; }
     }
 }
