@@ -64,7 +64,7 @@ namespace DnsClientServiceAgent
         /// <returns></returns>
         public async Task<bool> CheckKeyAccess(string[] commands)
         {
-            var response = GetApiResult("api-list_accessible_cmds", null);
+            var response = await GetApiResult("api-list_accessible_cmds", null);
             return false;
         }
 
@@ -73,11 +73,10 @@ namespace DnsClientServiceAgent
             return Guid.NewGuid().ToString("N");
         }
 
-        private async Task<string> GetApiResult(string command, IDictionary<string, string> additionalParameters)
+        private Task<string> GetApiResult(string command, IDictionary<string, string> additionalParameters)
         {
-            await Task.Delay(0);
             var client = new HttpClient();
-            return await client.GetStringAsync(new Uri(_apiServer));
+            return client.GetStringAsync(new Uri(_apiServer));
         }
     }
 }
