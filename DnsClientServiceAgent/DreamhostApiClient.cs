@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using DnsClientServiceAgent.Extensions;
 using log4net;
 
 namespace DnsClientServiceAgent
@@ -71,6 +72,16 @@ namespace DnsClientServiceAgent
         private static string GenerateUuid()
         {
             return Guid.NewGuid().ToString("N");
+        }
+
+        private Uri BuildUri(string command, IDictionary<string, string> parameters)
+        {
+            var uri = new Uri(
+                $"{_apiServer}?key={_apikey}&command={command}&uuid={GenerateUuid()}&{parameters.ToQueryString()}");
+
+            Logger.Debug("Url built: " + uri);
+
+            return uri;
         }
 
         private Task<string> GetApiResult(string command, IDictionary<string, string> additionalParameters)

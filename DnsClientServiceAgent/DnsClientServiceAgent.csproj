@@ -65,6 +65,7 @@
     <Compile Include="DnsListResult.cs" />
     <Compile Include="DnsManager.cs" />
     <Compile Include="DnsRecord.cs" />
+    <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="RecordTypes.cs" />
     <Compile Include="DreamhostApiClient.cs" />
     <Compile Include="Program.cs" />
