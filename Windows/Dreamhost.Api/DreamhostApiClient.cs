@@ -68,28 +68,31 @@ namespace Dreamhost.Api
         /// </summary>
         /// <param name="commands"></param>
         /// <returns></returns>
-        public async Task<bool> CheckKeyAccess(string[] commands)
+        public async Task<bool> CheckKeyAccess(IList<string> commands)
         {
             var response = await GetApiResult("api-list_accessible_cmds", null);
+
+            var missingCommands = new List<string>();
+            missingCommands.AddRange(commands);
 
             var obj = JsonConvert.DeserializeObject<ApiResult>(response);
 
             if (obj.Result == "success")
             {
-                bool exists = true;
-                foreach (var cmds in obj.Data)
+                try
                 {
-                    var d = new AvailableCommandData
+                    foreach (var cmds in obj.Data)
                     {
-                        cmd = cmds.cmd,
-                        args = cmds.args,
-                        optargs = cmds.optargs,
-                        order = cmds.order
-                    };
-                    if (!commands.Contains(d.cmd))
-                        exists = false;
+                        var apicmd = cmds.cmd.ToString();
+                        if (missingCommands.Contains(apicmd))
+                            missingCommands.Remove(apicmd);
+                    }
+                    return missingCommands.Count == 0;
                 }
-                return exists;
+                catch (Exception ex)
+                {
+                    Logger.Error("Error during CheckKeyAccess deserialization.", ex);
+                }
             }
 
             return false;

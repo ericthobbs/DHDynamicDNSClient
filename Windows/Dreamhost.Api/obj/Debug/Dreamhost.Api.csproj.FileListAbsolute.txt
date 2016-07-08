@@ -1,9 +1,0 @@
-C:\Users\erict\Documents\GitHubVisualStudio\DHDynamicDNSClient\Windows\Dreamhost.Api\bin\Debug\Dreamhost.Api.dll
-C:\Users\erict\Documents\GitHubVisualStudio\DHDynamicDNSClient\Windows\Dreamhost.Api\bin\Debug\Dreamhost.Api.pdb
-C:\Users\erict\Documents\GitHubVisualStudio\DHDynamicDNSClient\Windows\Dreamhost.Api\bin\Debug\log4net.dll
-C:\Users\erict\Documents\GitHubVisualStudio\DHDynamicDNSClient\Windows\Dreamhost.Api\bin\Debug\Newtonsoft.Json.dll
-C:\Users\erict\Documents\GitHubVisualStudio\DHDynamicDNSClient\Windows\Dreamhost.Api\bin\Debug\log4net.xml
-C:\Users\erict\Documents\GitHubVisualStudio\DHDynamicDNSClient\Windows\Dreamhost.Api\bin\Debug\Newtonsoft.Json.xml
-C:\Users\erict\Documents\GitHubVisualStudio\DHDynamicDNSClient\Windows\Dreamhost.Api\obj\Debug\Dreamhost.Api.csprojResolveAssemblyReference.cache
-C:\Users\erict\Documents\GitHubVisualStudio\DHDynamicDNSClient\Windows\Dreamhost.Api\obj\Debug\Dreamhost.Api.dll
-C:\Users\erict\Documents\GitHubVisualStudio\DHDynamicDNSClient\Windows\Dreamhost.Api\obj\Debug\Dreamhost.Api.pdb

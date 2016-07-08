@@ -33,10 +33,10 @@ namespace DreamhostApi.Test
         {
             var client = new Dreamhost.Api.DreamhostApiClient("https://api.dreamhost.com", "6SHU5P2HLDAYECUM");
 
-            var result = client.CheckKeyAccess(new[] { "user-list_users" });
+            var result = client.CheckKeyAccess(new[] { "account-list_keys" });
             result.Wait();
 
-            Assert.IsFalse(result.Result, "example key is valid.");
+            Assert.IsFalse(result.Result, "check key access failed. demo key does not have access to account-list_keys");
         }
     }
 }
