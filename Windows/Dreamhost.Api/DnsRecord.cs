@@ -11,7 +11,7 @@ namespace Dreamhost.Api
         /// <summary>
         /// Numeric ID of the account 
         /// </summary>
-        public String AccountId { get; set; }
+        public string AccountId { get; set; }
 
         /// <summary>
         /// User Comment
