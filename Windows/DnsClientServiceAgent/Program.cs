@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,20 +13,21 @@ namespace DnsClientServiceAgent
         static void Main(string[] args)
         {
 
-            HostFactory.Run(x =>                                 //1
+            HostFactory.Run(x =>
             {
-                x.Service<DnsManager>(s =>                        //2
+                x.UseLog4Net();
+                x.Service<DnsManagerService>(s =>
                 {
-                    s.ConstructUsing(name => new TownCrier());     //3
-                    s.WhenStarted(tc => tc.Start());              //4
-                    s.WhenStopped(tc => tc.Stop());               //5
+                    s.ConstructUsing(name => new DnsManagerService() );
+                    s.WhenStarted(tc => tc.Start());
+                    s.WhenStopped(tc => tc.Stop());
                 });
-                x.RunAsLocalSystem();                            //6
+                x.RunAsLocalService();
 
-                x.SetDescription("Sample Topshelf Host");        //7
-                x.SetDisplayName("Stuff");                       //8
-                x.SetServiceName("Stuff");                       //9
-            });                                                  //10
+                x.SetDescription("Configures remote dns service with this machines public ip.");
+                x.SetDisplayName("DnsClientServiceAgent");
+                x.SetServiceName("DnsClientServiceAgent");
+            });
     }
     }
 }

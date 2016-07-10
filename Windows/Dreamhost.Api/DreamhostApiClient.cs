@@ -12,12 +12,14 @@ namespace Dreamhost.Api
     /// Dreamhost Api Client (C#)
     /// (c) 2016 Eric Hobbs eric_@_badpointer.net
     /// </summary>
-    public class DreamhostApiClient
+    public class DreamhostApiClient : IDisposable
     {
         private static readonly ILog Logger = LogManager.GetLogger(typeof(DreamhostApiClient));
 
         private readonly string apiServer;
         private readonly string apikey;
+
+        private HttpClient HttpClient { get; set; }
 
         /// <summary>
         /// Constructs a new instance of the API using the specified endpoint and apikey.
@@ -47,6 +49,9 @@ namespace Dreamhost.Api
 
             this.apikey = apikey;
             apiServer = apiserver;
+
+            HttpClient = new HttpClient();
+            HttpClient.BaseAddress = new Uri(apiserver);
         }
 
         /// <summary>
@@ -148,7 +153,7 @@ namespace Dreamhost.Api
         private Uri BuildUri(string command, IDictionary<string, string> parameters)
         {
             return 
-                new Uri($"{apiServer}?key={apikey}&cmd={command}&uuid={GenerateUuid()}&format=json{parameters.ToQueryString()}");
+                new Uri($"?key={apikey}&cmd={command}&uuid={GenerateUuid()}&format=json{parameters.ToQueryString()}");
         }
 
         /// <summary>
@@ -157,10 +162,22 @@ namespace Dreamhost.Api
         /// <param name="command">api command</param>
         /// <param name="additionalParameters">command parameters dictionary. Can be null.</param>
         /// <returns></returns>
-        private Task<string> GetApiResult(string command, IDictionary<string, string> additionalParameters)
+        private async Task<string> GetApiResult(string command, IDictionary<string, string> additionalParameters)
         {
-            var client = new HttpClient();
-            return client.GetStringAsync(BuildUri(command, additionalParameters));
+            HttpResponseMessage response = await HttpClient.GetAsync(BuildUri(command, additionalParameters));
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadAsStringAsync();
+            }
+
+            Logger.Error("Failed api call: " + response.ReasonPhrase);
+            return null;
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
         }
     }
 }
