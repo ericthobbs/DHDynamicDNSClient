@@ -16,10 +16,29 @@ namespace Dreamhost.Api
     {
         private static readonly ILog Logger = LogManager.GetLogger(typeof(DreamhostApiClient));
 
-        private readonly string apiServer;
-        private readonly string apikey;
+        private readonly string _apiServer;
+        private readonly string _apikey;
 
         private HttpClient HttpClient { get; set; }
+
+        /// <summary>
+        /// Constructs a new instance of the API using the specified apikey.
+        /// </summary>
+        /// <param name="apikey">your api key.</param>
+        public DreamhostApiClient(string apikey)
+        {
+            if (string.IsNullOrEmpty(apikey))
+            {
+                Logger.Error("apikey is not valid.");
+                throw new ArgumentNullException(nameof(apikey));
+            }
+
+            _apikey = apikey;
+            _apiServer = "https://api.dreamhost.com";
+
+            HttpClient = new HttpClient();
+            HttpClient.BaseAddress = new Uri(_apiServer);
+        }
 
         /// <summary>
         /// Constructs a new instance of the API using the specified endpoint and apikey.
@@ -47,8 +66,8 @@ namespace Dreamhost.Api
                 throw new ArgumentException("Invalid Uri for api server.", nameof(apiserver));
             }
 
-            this.apikey = apikey;
-            apiServer = apiserver;
+            this._apikey = apikey;
+            _apiServer = apiserver;
 
             HttpClient = new HttpClient();
             HttpClient.BaseAddress = new Uri(apiserver);
@@ -153,8 +172,8 @@ namespace Dreamhost.Api
         private Uri BuildUri(string command, IDictionary<string, string> parameters)
         {
             return new 
-                Uri($"{apiServer}/" +
-                    $"?key={apikey}" +
+                Uri($"{_apiServer}/" +
+                    $"?key={_apikey}" +
                     $"&cmd={command}" +
                     $"&uuid={GenerateUuid()}" +
                     $"&format=json" +

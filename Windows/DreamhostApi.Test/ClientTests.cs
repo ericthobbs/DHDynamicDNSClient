@@ -10,7 +10,7 @@ namespace DreamhostApi.Test
         [TestMethod]
         public async Task Apikey_ExampleKey_Invalid_Test()
         {
-            var client = new Dreamhost.Api.DreamhostApiClient("https://api.dreamhost.com", "TESTBADKEY1");
+            var client = new Dreamhost.Api.DreamhostApiClient("TESTBADKEY1");
 
             var result = await client.CheckKeyAccess(new[] { "user-list_users" });
 
@@ -20,7 +20,7 @@ namespace DreamhostApi.Test
         [TestMethod]
         public async Task CheckAccess_ExampleKey_Valid_Test()
         {
-            var client = new Dreamhost.Api.DreamhostApiClient("https://api.dreamhost.com", "6SHU5P2HLDAYECUM");
+            var client = new Dreamhost.Api.DreamhostApiClient("6SHU5P2HLDAYECUM");
 
             var result = await client.CheckKeyAccess(new [] { "user-list_users_no_pw" });
 
@@ -30,7 +30,7 @@ namespace DreamhostApi.Test
         [TestMethod]
         public async Task CheckAccess_ExampleKey_Invalid_Test()
         {
-            var client = new Dreamhost.Api.DreamhostApiClient("https://api.dreamhost.com", "6SHU5P2HLDAYECUM");
+            var client = new Dreamhost.Api.DreamhostApiClient("6SHU5P2HLDAYECUM");
 
             var result = await client.CheckKeyAccess(new[] { "account-list_keys" });
 

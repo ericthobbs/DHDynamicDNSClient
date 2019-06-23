@@ -13,16 +13,16 @@ using Dreamhost.Api;
 
 namespace DnsClientServiceAgent
 {
-    public class DnsManagerService
+    public class DynamicDnsUpdateService
     {
-        private static ILog _logger = LogManager.GetLogger(typeof(DnsManagerService));
+        private static ILog _logger = LogManager.GetLogger(typeof(DynamicDnsUpdateService));
 
         public const string ApiServer = "https://api.dreamhost.com";
         public const string RemoteScript = "http://scripts.badpointer.net/external_ip.php";
 
         private DreamhostApiClient apiClient;
 
-        public DnsManagerService()
+        public DynamicDnsUpdateService()
         {
             var apikey = ConfigurationManager.AppSettings["apikey"];
             var apiserver = ConfigurationManager.AppSettings["apiserver"];
@@ -39,17 +39,6 @@ namespace DnsClientServiceAgent
         public void Stop()
         {
             
-        }
-
-        private async Task<IPAddress> GetPublicIp()
-        {
-            using (var HttpClient = new HttpClient())
-            {
-                var result = await HttpClient.GetAsync(RemoteScript);
-                result.EnsureSuccessStatusCode();
-                
-            }
-            return null;
         }
     }
 }

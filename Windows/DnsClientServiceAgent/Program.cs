@@ -16,15 +16,15 @@ namespace DnsClientServiceAgent
             HostFactory.Run(x =>
             {
                 x.UseLog4Net();
-                x.Service<DnsManagerService>(s =>
+                x.Service<DynamicDnsUpdateService>(s =>
                 {
-                    s.ConstructUsing(name => new DnsManagerService() );
+                    s.ConstructUsing(name => new DynamicDnsUpdateService() );
                     s.WhenStarted(tc => tc.Start());
                     s.WhenStopped(tc => tc.Stop());
                 });
                 x.RunAsLocalService();
 
-                x.SetDescription("Configures remote dns service with this machines public ip.");
+                x.SetDescription("Configures remote DNS update service with this machines public IP.");
                 x.SetDisplayName("DnsClientServiceAgent");
                 x.SetServiceName("DnsClientServiceAgent");
             });

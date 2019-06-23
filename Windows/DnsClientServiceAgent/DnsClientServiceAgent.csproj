@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <AssemblyTitle>DnsClientServiceAgent</AssemblyTitle>
     <Company>Eric Hobbs</Company>
@@ -11,20 +11,14 @@
     <OutputPath>..\bin\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="System.Data.DataSetExtensions" Version="4.*" />
-    <PackageReference Include="Microsoft.CSharp" Version="4.*" />
-    <PackageReference Include="System.Net.Http" Version="4.*" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
     <PackageReference Include="Topshelf" Version="4.2.0" />
     <PackageReference Include="Topshelf.Log4Net" Version="4.2.0" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.ServiceProcess" />
-    <Reference Include="System.Web.Extensions" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dreamhost.Api\Dreamhost.Api.csproj" />
