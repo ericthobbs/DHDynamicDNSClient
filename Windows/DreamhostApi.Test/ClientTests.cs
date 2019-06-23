@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DreamhostApi.Test
@@ -7,36 +8,33 @@ namespace DreamhostApi.Test
     public class ClientTests
     {
         [TestMethod]
-        public void Apikey_ExampleKey_Invalid_Test()
+        public async Task Apikey_ExampleKey_Invalid_Test()
         {
             var client = new Dreamhost.Api.DreamhostApiClient("https://api.dreamhost.com", "TESTBADKEY1");
 
-            var result = client.CheckKeyAccess(new[] { "user-list_users" });
-            result.Wait();
+            var result = await client.CheckKeyAccess(new[] { "user-list_users" });
 
-            Assert.IsFalse(result.Result, "example key is valid.");
+            Assert.IsFalse(result, "example key is valid.");
         }
 
         [TestMethod]
-        public void CheckAccess_ExampleKey_Valid_Test()
+        public async Task CheckAccess_ExampleKey_Valid_Test()
         {
             var client = new Dreamhost.Api.DreamhostApiClient("https://api.dreamhost.com", "6SHU5P2HLDAYECUM");
 
-            var result = client.CheckKeyAccess(new [] { "user-list_users_no_pw" });
-            result.Wait();
+            var result = await client.CheckKeyAccess(new [] { "user-list_users_no_pw" });
 
-            Assert.IsTrue(result.Result, "expected command 'user-list_users_no_pw' not available.");
+            Assert.IsTrue(result, "expected command 'user-list_users_no_pw' not available.");
         }
 
         [TestMethod]
-        public void CheckAccess_ExampleKey_Invalid_Test()
+        public async Task CheckAccess_ExampleKey_Invalid_Test()
         {
             var client = new Dreamhost.Api.DreamhostApiClient("https://api.dreamhost.com", "6SHU5P2HLDAYECUM");
 
-            var result = client.CheckKeyAccess(new[] { "account-list_keys" });
-            result.Wait();
+            var result = await client.CheckKeyAccess(new[] { "account-list_keys" });
 
-            Assert.IsFalse(result.Result, "check key access failed. demo key does not have access to account-list_keys");
+            Assert.IsFalse(result, "check key access failed. demo key does not have access to account-list_keys");
         }
     }
 }
