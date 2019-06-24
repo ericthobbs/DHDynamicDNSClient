@@ -49,6 +49,7 @@ namespace DreamhostDnsApiTestApp
             logger.LogInformation($"Setting APIKEY to {settings.CurrentValue.ApiKey}");
             client.ApiKey = settings.CurrentValue.ApiKey;
 
+            var accessCheck = await client.CheckKeyAccess(new[] {"dns-list_records"});
 
             var apiRecords = await client.DnsListRecords();
 

@@ -21,7 +21,7 @@ namespace DreamhostApi.Test
             client.ApiKey = "TESTBADKEY1";
             var result = await client.CheckKeyAccess(new[] { "user-list_users" });
 
-            Assert.IsFalse(result, "example key is valid.");
+            Assert.IsFalse(result.Item1, "example key is valid.");
         }
 
         [TestMethod]
@@ -31,7 +31,7 @@ namespace DreamhostApi.Test
             client.ApiKey = "6SHU5P2HLDAYECUM";
             var result = await client.CheckKeyAccess(new [] { "user-list_users_no_pw" });
 
-            Assert.IsTrue(result, "expected command 'user-list_users_no_pw' not available.");
+            Assert.IsTrue(result.Item1, "expected command 'user-list_users_no_pw' not available.");
         }
 
         [TestMethod]
@@ -41,7 +41,7 @@ namespace DreamhostApi.Test
             client.ApiKey = "6SHU5P2HLDAYECUM";
             var result = await client.CheckKeyAccess(new[] { "account-list_keys" });
 
-            Assert.IsFalse(result, "check key access failed. demo key does not have access to account-list_keys");
+            Assert.IsFalse(result.Item1, "check key access failed. demo key does not have access to account-list_keys");
         }
     }
 }

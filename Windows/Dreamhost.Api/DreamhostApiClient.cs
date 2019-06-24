@@ -11,7 +11,7 @@ namespace Dreamhost.Api
 {
     /// <summary>
     /// Dreamhost Api Client (C#)
-    /// (c) 2016 Eric Hobbs eric_@_badpointer.net
+    /// (c) 2016-2019 Eric Hobbs eric_@_badpointer.net
     /// </summary>
     public class DreamhostApiClient
     {
@@ -102,37 +102,34 @@ namespace Dreamhost.Api
         /// </summary>
         /// <param name="commands">api commands to check that the key has access rights for.</param>
         /// <returns>true if the key has access to all of the specified keys.</returns>
-        public async Task<bool> CheckKeyAccess(IList<string> commands)
+        public async Task<Tuple<bool, IList<string>>> CheckKeyAccess(IList<string> commands)
         {
+            //TODO: Rewrite this!
             var response = await GetApiResult("api-list_accessible_cmds", null);
 
-            var missingCommands = new List<string>();
-            missingCommands.AddRange(commands);
+            var missingCommandsList = new List<string>();
+            missingCommandsList.AddRange(commands);
 
+            //Temp hack
             var obj = JsonConvert.DeserializeObject<ApiResult>(response);
+            if(obj.Reason == "error")
+                return new Tuple<bool, IList<string>>(false,null);
+
+            var availableCommandsResult = JsonConvert.DeserializeObject<ApiResult<List<ApiCommandList>>>(response);
 
             if (obj.Result != "success")
             {
                 _logger.LogError("api-list_accessible_cmds failed: " + obj.Reason);
-                return false;
+                return new Tuple<bool, IList<string>>(false,null);
             }
 
-            try
+            foreach (var theCommand in availableCommandsResult.Data)
             {
-                foreach (var cmds in obj.Data)
-                {
-                    var apicmd = cmds.cmd.ToString();
-                    if (missingCommands.Contains(apicmd))
-                        missingCommands.Remove(apicmd);
-                }
-                return missingCommands.Count == 0;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("Error during CheckKeyAccess serialization.", ex);
+                if (missingCommandsList.Contains(theCommand.Command))
+                    missingCommandsList.Remove(theCommand.Command);
             }
 
-            return false;
+            return new Tuple<bool, IList<string>>(missingCommandsList.Count == 0, missingCommandsList);
         }
 
         /// <summary>
