@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dreamhost.Api
 {
-    public class DnsListResult : ApiResult
+    public class DnsListResult : ApiResult<IList<DnsRecord>>
     {
-        public IList<DnsRecord> Records { get; set; }
     }
 }

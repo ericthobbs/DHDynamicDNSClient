@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using DnsClientServiceAgent.Extensions;
 using Microsoft.Extensions.Logging;
@@ -14,8 +15,15 @@ namespace Dreamhost.Api
     /// </summary>
     public class DreamhostApiClient
     {
+        /// <summary>
+        /// DREAMHOST API Key
+        /// Get your key at https://panel.dreamhost.com/
+        /// </summary>
         public string ApiKey { set; get; }
 
+        /// <summary>
+        /// DREAMHOST API Service Host
+        /// </summary>
         public string ApiHostName { get; set; }
 
         private readonly ILogger<DreamhostApiClient> _logger;
@@ -41,11 +49,7 @@ namespace Dreamhost.Api
         public async Task<DnsListResult> DnsListRecords()
         {
             var response = await GetApiResult("dns-list_records", null);
-            return new DnsListResult
-            {
-                Result = "error",
-                Records = null,
-            };
+            return JsonConvert.DeserializeObject<DnsListResult>(response);
         }
 
         /// <summary>
@@ -56,10 +60,17 @@ namespace Dreamhost.Api
         /// <param name="type">Record type (A,MX,...)</param>
         /// <param name="comment">Optional comment.</param>
         /// <returns>true if the record was added successfully.</returns>
-        public async Task<bool> DnsAddRecord(string record, string value, string type, string comment)
+        public async Task<ApiResult> DnsAddRecord(string record, string value, string type, string comment)
         {
-            var response = await GetApiResult("dns-add_record", null);
-            return false;
+            var response = await GetApiResult("dns-add_record", new Dictionary<string, string>()
+            {
+                {"record", record },
+                {"type", type },
+                {"value", value },
+                {"comment", comment }
+            });
+
+            return JsonConvert.DeserializeObject<ApiResult>(response);
         }
 
         /// <summary>
@@ -69,10 +80,21 @@ namespace Dreamhost.Api
         /// <param name="type"></param>
         /// <param name="value"></param>
         /// <returns>true if the record was deleted.</returns>
-        public async Task<bool> DnsRemoveRecord(string record, string type, string value)
+        public async Task<ApiResult> DnsRemoveRecord(string record, string type, string value)
         {
-            var response = await GetApiResult("dns-remove_record", null);
-            return false;
+            var response = await GetApiResult("dns-remove_record", new Dictionary<string, string>()
+            {
+                {"record", record },
+                {"type", type },
+                {"value", value }
+            });
+            return JsonConvert.DeserializeObject<ApiResult>(response);
+            
+        }
+
+        public Task<ApiResult> DnsRemoveRecord(DnsRecord record, CancellationToken token = default(CancellationToken))
+        {
+            return DnsRemoveRecord(record.Record, record.Type, record.Value);
         }
 
         /// <summary>

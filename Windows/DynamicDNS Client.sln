@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.645
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DreamhostApi.Test", "DreamhostApi.Test\DreamhostApi.Test.csproj", "{AA2F0FE5-7051-4BB2-B6DF-290EA161F48A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamhostApi.Test", "DreamhostApi.Test\DreamhostApi.Test.csproj", "{AA2F0FE5-7051-4BB2-B6DF-290EA161F48A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dreamhost.Api", "Dreamhost.Api\Dreamhost.Api.csproj", "{077C02EB-0455-4FE5-9343-93B80E873C9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dreamhost.Api", "Dreamhost.Api\Dreamhost.Api.csproj", "{077C02EB-0455-4FE5-9343-93B80E873C9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnsClientServiceAgent", "DnsClientServiceAgent\DnsClientServiceAgent.csproj", "{31C401AE-AF90-4B94-85A7-06C4CC938F99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DnsClientServiceAgent", "DnsClientServiceAgent\DnsClientServiceAgent.csproj", "{31C401AE-AF90-4B94-85A7-06C4CC938F99}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DreamhostDnsApiTestApp", "DreamhostDnsApiTestApp\DreamhostDnsApiTestApp.csproj", "{5B0E6644-5841-44DD-B796-87F3160666A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,8 +57,23 @@ Global
 		{31C401AE-AF90-4B94-85A7-06C4CC938F99}.Release|x64.Build.0 = Release|Any CPU
 		{31C401AE-AF90-4B94-85A7-06C4CC938F99}.Release|x86.ActiveCfg = Release|Any CPU
 		{31C401AE-AF90-4B94-85A7-06C4CC938F99}.Release|x86.Build.0 = Release|Any CPU
+		{5B0E6644-5841-44DD-B796-87F3160666A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B0E6644-5841-44DD-B796-87F3160666A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B0E6644-5841-44DD-B796-87F3160666A5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5B0E6644-5841-44DD-B796-87F3160666A5}.Debug|x64.Build.0 = Debug|Any CPU
+		{5B0E6644-5841-44DD-B796-87F3160666A5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5B0E6644-5841-44DD-B796-87F3160666A5}.Debug|x86.Build.0 = Debug|Any CPU
+		{5B0E6644-5841-44DD-B796-87F3160666A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B0E6644-5841-44DD-B796-87F3160666A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B0E6644-5841-44DD-B796-87F3160666A5}.Release|x64.ActiveCfg = Release|Any CPU
+		{5B0E6644-5841-44DD-B796-87F3160666A5}.Release|x64.Build.0 = Release|Any CPU
+		{5B0E6644-5841-44DD-B796-87F3160666A5}.Release|x86.ActiveCfg = Release|Any CPU
+		{5B0E6644-5841-44DD-B796-87F3160666A5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5218E676-25D0-40BD-B9EE-5AC3D8CFBD1F}
 	EndGlobalSection
 EndGlobal
