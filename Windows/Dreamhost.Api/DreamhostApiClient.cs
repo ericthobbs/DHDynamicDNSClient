@@ -152,15 +152,9 @@ namespace Dreamhost.Api
         /// <param name="command">api command</param>
         /// <param name="parameters">api command parameters</param>
         /// <returns>Uri</returns>
-        private Uri BuildUri(string command, IDictionary<string, string> parameters)
+        private string BuildUri(string command, IDictionary<string, string> parameters)
         {
-            return new 
-                Uri($"{ApiHostName}/" +
-                    $"?key={ApiKey}" +
-                    $"&cmd={command}" +
-                    $"&uuid={GenerateUuid()}" +
-                    $"&format=json" +
-                    $"{parameters.ToQueryString()}");
+            return $"?key={ApiKey}&cmd={command}&uuid={GenerateUuid()}&format=json{parameters.ToQueryString()}";
         }
 
         /// <summary>
