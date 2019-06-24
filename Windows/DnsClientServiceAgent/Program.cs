@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Net;
 using System.Reflection;
-using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Dreamhost.Api;
-using Dreamhost.Api.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Topshelf;
@@ -16,18 +10,19 @@ using Topshelf.Autofac;
 
 namespace DnsClientServiceAgent
 {
+    /// <summary>
+    /// Service Application Entry Point
+    /// </summary>
     class Program
     {
         static void Main(string[] args)
         {
-
-            IConfigurationRoot Configuration;
             var builder = new ConfigurationBuilder()
                 .SetBasePath(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddUserSecrets<Program>();
 
-            Configuration = builder.Build();
+            var configuration = builder.Build();
 
 
             var serviceCollection = new ServiceCollection();
@@ -36,7 +31,7 @@ namespace DnsClientServiceAgent
             serviceCollection.AddLogging();
             serviceCollection.AddAutofac();
 
-            serviceCollection.Configure<ApplicationSettings>(Configuration.GetSection("Settings"));
+            serviceCollection.Configure<ApplicationSettings>(configuration.GetSection("Settings"));
 
             //Register Types
             containerBuilder.Populate(serviceCollection);
@@ -45,29 +40,22 @@ namespace DnsClientServiceAgent
 
             var container = containerBuilder.Build();
 
-            try
+            HostFactory.Run(x =>
             {
-                HostFactory.Run(x =>
+                x.UseAutofacContainer(container);
+
+                x.Service<DynamicDnsUpdateService>(s =>
                 {
-                    var y = x.UseAutofacContainer(container);
-
-                    x.Service<DynamicDnsUpdateService>(s =>
-                    {
-                        s.ConstructUsingAutofacContainer();
-                        s.WhenStarted(tc => tc.Start());
-                        s.WhenStopped(tc => tc.Stop());
-                    });
-                    x.RunAsLocalService();
-
-                    x.SetDescription("Configures remote DNS update service with this machines public IP address.");
-                    x.SetDisplayName("DnsClientServiceAgent");
-                    x.SetServiceName("DnsClientServiceAgent");
+                    s.ConstructUsingAutofacContainer();
+                    s.WhenStarted(tc => tc.Start());
+                    s.WhenStopped(tc => tc.Stop());
                 });
-            }
-            catch (Exception ex)
-            {
-                int a = 0;
-            }
+                x.RunAsLocalService();
+
+                x.SetDescription("Configures remote DNS update service with this machines public IP address.");
+                x.SetDisplayName("DnsClientServiceAgent");
+                x.SetServiceName("DnsClientServiceAgent");
+            });
         }
     }
 }
