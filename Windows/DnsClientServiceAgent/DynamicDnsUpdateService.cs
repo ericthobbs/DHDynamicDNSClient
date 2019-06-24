@@ -44,6 +44,12 @@ namespace DnsClientServiceAgent
         {
             _logger.LogDebug("Firing....");
 
+            //Work Loop
+            
+            //Grab dns records
+            //check if the dns record we are looking for has a different address
+            //delete old record if address differs
+            //then add updated record
         }
 
         public void Start()
