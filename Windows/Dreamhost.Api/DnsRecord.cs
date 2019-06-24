@@ -31,7 +31,7 @@ namespace Dreamhost.Api
         /// <summary>
         /// Type of record: A = ipv4, AAAA=ipv6, MX=mail, TXT=TEXT, etc
         /// </summary>
-        public string Type { get; set; }
+        public string @Type { get; set; }
 
         /// <summary>
         /// The value of the record (for A/AAAA this is the ip address)

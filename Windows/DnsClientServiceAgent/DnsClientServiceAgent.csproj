@@ -7,20 +7,35 @@
     <Company>Eric Hobbs</Company>
     <Product>DnsClientServiceAgent</Product>
     <Description>Dreamhost DNS Api Client</Description>
-    <Copyright>Copyright © Eric Hobbs  2016</Copyright>
+    <Copyright>Copyright © Eric Hobbs 2016-2019</Copyright>
     <OutputPath>..\bin\$(Configuration)\</OutputPath>
+    <UserSecretsId>AAA8A47D-5C05-497D-BE9C-95828792C6AA</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="Autofac" Version="4.9.2" />
+    <PackageReference Include="Autofac.Configuration" Version="4.1.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.2.4" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.2.0" />
     <PackageReference Include="Topshelf" Version="4.2.0" />
-    <PackageReference Include="Topshelf.Log4Net" Version="4.2.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.ServiceProcess" />
+    <PackageReference Include="Topshelf.Autofac" Version="4.0.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dreamhost.Api\Dreamhost.Api.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

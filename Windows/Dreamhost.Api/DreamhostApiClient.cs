@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using DnsClientServiceAgent.Extensions;
-using log4net;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace Dreamhost.Api
@@ -12,66 +12,27 @@ namespace Dreamhost.Api
     /// Dreamhost Api Client (C#)
     /// (c) 2016 Eric Hobbs eric_@_badpointer.net
     /// </summary>
-    public class DreamhostApiClient : IDisposable
+    public class DreamhostApiClient
     {
-        private static readonly ILog Logger = LogManager.GetLogger(typeof(DreamhostApiClient));
+        public string ApiKey { set; get; }
 
-        private readonly string _apiServer;
-        private readonly string _apikey;
+        public string ApiHostName { get; set; }
+
+        private readonly ILogger<DreamhostApiClient> _logger;
 
         private HttpClient HttpClient { get; set; }
 
         /// <summary>
-        /// Constructs a new instance of the API using the specified apikey.
+        /// Constructs a new instance of the API
         /// </summary>
-        /// <param name="apikey">your api key.</param>
-        public DreamhostApiClient(string apikey)
+        public DreamhostApiClient(ILogger<DreamhostApiClient> logger)
         {
-            if (string.IsNullOrEmpty(apikey))
-            {
-                Logger.Error("apikey is not valid.");
-                throw new ArgumentNullException(nameof(apikey));
-            }
+            _logger = logger;
+            ApiHostName = "https://api.dreamhost.com";
 
-            _apikey = apikey;
-            _apiServer = "https://api.dreamhost.com";
-
-            HttpClient = new HttpClient();
-            HttpClient.BaseAddress = new Uri(_apiServer);
+            HttpClient = new HttpClient {BaseAddress = new Uri(ApiHostName)};
         }
 
-        /// <summary>
-        /// Constructs a new instance of the API using the specified endpoint and apikey.
-        /// </summary>
-        /// <param name="apiserver">API Server to use, this would be 'http://api.dreamhost.com'</param>
-        /// <param name="apikey">your api key.</param>
-        public DreamhostApiClient(string apiserver, string apikey)
-        {
-            if (string.IsNullOrEmpty(apikey))
-            {
-                Logger.Error("apikey is not valid.");
-                throw new ArgumentNullException(nameof(apikey));
-            }
-
-            if (string.IsNullOrEmpty(apiserver))
-            {
-                Logger.Error("apiserver is not valid.");
-                throw new ArgumentNullException(nameof(apiserver));
-            }
-
-            Uri uriTest;
-            if (!Uri.TryCreate(apiserver, UriKind.RelativeOrAbsolute, out uriTest))
-            {
-                Logger.Error("apiserver is not a valid uri.");
-                throw new ArgumentException("Invalid Uri for api server.", nameof(apiserver));
-            }
-
-            this._apikey = apikey;
-            _apiServer = apiserver;
-
-            HttpClient = new HttpClient();
-            HttpClient.BaseAddress = new Uri(apiserver);
-        }
 
         /// <summary>
         /// List All DNS Records
@@ -130,7 +91,7 @@ namespace Dreamhost.Api
 
             if (obj.Result != "success")
             {
-                Logger.Error("api-list_accessible_cmds failed: " + obj.Reason);
+                _logger.LogError("api-list_accessible_cmds failed: " + obj.Reason);
                 return false;
             }
 
@@ -146,7 +107,7 @@ namespace Dreamhost.Api
             }
             catch (Exception ex)
             {
-                Logger.Error("Error during CheckKeyAccess deserialization.", ex);
+                _logger.LogError("Error during CheckKeyAccess serialization.", ex);
             }
 
             return false;
@@ -172,8 +133,8 @@ namespace Dreamhost.Api
         private Uri BuildUri(string command, IDictionary<string, string> parameters)
         {
             return new 
-                Uri($"{_apiServer}/" +
-                    $"?key={_apikey}" +
+                Uri($"{ApiHostName}/" +
+                    $"?key={ApiKey}" +
                     $"&cmd={command}" +
                     $"&uuid={GenerateUuid()}" +
                     $"&format=json" +
@@ -195,13 +156,8 @@ namespace Dreamhost.Api
                 return await response.Content.ReadAsStringAsync();
             }
 
-            Logger.Error("Failed api call: " + response.ReasonPhrase);
+            _logger.LogError("Failed API call: " + response.ReasonPhrase);
             return null;
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
         }
     }
 }

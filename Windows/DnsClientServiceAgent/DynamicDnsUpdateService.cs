@@ -7,38 +7,53 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using log4net;
 using Dreamhost.Api;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace DnsClientServiceAgent
 {
     public class DynamicDnsUpdateService
     {
-        private static ILog _logger = LogManager.GetLogger(typeof(DynamicDnsUpdateService));
+        private readonly ILogger<DynamicDnsUpdateService> _logger;
+        private readonly IOptionsMonitor<ApplicationSettings> _settings;
+        private readonly DreamhostApiClient _client;
 
-        public const string ApiServer = "https://api.dreamhost.com";
-        public const string RemoteScript = "http://scripts.badpointer.net/external_ip.php";
+        private readonly System.Threading.Timer workTimer;
 
-        private DreamhostApiClient apiClient;
-
-        public DynamicDnsUpdateService()
+        public DynamicDnsUpdateService(
+            ILoggerFactory loggerFactory, 
+            ILogger<DynamicDnsUpdateService> logger,
+            IOptionsMonitor<ApplicationSettings> settings,
+            DreamhostApiClient client)
         {
-            var apikey = ConfigurationManager.AppSettings["apikey"];
-            var apiserver = ConfigurationManager.AppSettings["apiserver"];
-            var remoteipscript = ConfigurationManager.AppSettings["remoteipscript"];
+            _logger = logger;
+            _settings = settings;
+            _client = client;
+            _client.ApiKey = _settings.CurrentValue.ApiKey;
+            workTimer = new Timer(
+                OnTimerFired, 
+                this,
+                Timeout.InfiniteTimeSpan, 
+                TimeSpan.FromMilliseconds(-1));
+        }
 
-            apiClient = new DreamhostApiClient(apiserver ?? ApiServer, apikey);
+        private void OnTimerFired(object state)
+        {
+            _logger.LogDebug("Firing....");
+
         }
 
         public void Start()
         {
-            
+            workTimer.Change(TimeSpan.Zero, TimeSpan.FromMilliseconds(_settings.CurrentValue.CheckIntervalInMs));
         }
 
         public void Stop()
         {
-            
+            workTimer.Change(TimeSpan.MaxValue, TimeSpan.FromMilliseconds(-1));
         }
     }
 }
