@@ -11,8 +11,8 @@ namespace DreamhostApi.Test
         [AssemblyInitialize]
         public static void Initialize(TestContext context)
         {
-            context.WriteLine("Settings Configured");
-            context.WriteLine("Logging Configured");
+            //context.WriteLine("Settings Configured");
+            //context.WriteLine("Logging Configured");
         }
 
         [TestMethod]
