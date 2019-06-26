@@ -62,17 +62,13 @@ namespace DnsClientServiceAgent
                 try
                 {
                     Task.WaitAll(tasks);
+                    _logger.LogInformation("All records deleted successfully!");
                 }
                 catch (AggregateException ex)
                 {
-                    _logger.LogError(ex.InnerException, "Failed to delete dns record(s).");
-                }
-
-                foreach (var task in tasks)
-                {
-                    if (!task.IsCompletedSuccessfully)
+                    foreach (var ie in ex.InnerExceptions)
                     {
-                        _logger.LogError(task.Exception, "Failed to delete a dns record.");
+                        _logger.LogError(ie, "Failed to delete dns record.");
                     }
                 }
             }
@@ -93,31 +89,40 @@ namespace DnsClientServiceAgent
                 try
                 {
                     Task.WaitAll(tasks);
+                    _logger.LogInformation("All Records created successfully!");
                 }
                 catch (AggregateException ex)
                 {
-                    _logger.LogError(ex.InnerException, "Failed to delete dns record(s).");
+                    foreach (var ie in ex.InnerExceptions)
+                    {
+                        _logger.LogError(ie, "Failed to create dns record.");
+                        if (ie is DnsRecordAlreadyExistsException)
+                        {
+                            var exp = ie as DnsRecordAlreadyExistsException;
+                            _logger.LogError(ex, $"DNS Record '{exp.commandParameters["record"]}' already exists.");
+                        }
+                    }
                 }
 
-                foreach (var task in tasks)
-                {
-                    if (!task.IsCompletedSuccessfully)
-                    {
-                        _logger.LogError(task.Exception, "Failed to delete a dns record.");
-                    }
-                    else
-                    {
-                        _logger.LogInformation("DNS Record updated success!");
-                    }
-                }
             }
 
             var ipTask = GetPublicIpAddress();
-            var dnsRecordsListTask = _client.DnsListRecords();
 
+            Task<DnsListResult> dnsRecordsListTask = null;
             try
             {
+                dnsRecordsListTask = _client.DnsListRecords();
                 Task.WaitAll(new Task[] {ipTask, dnsRecordsListTask});
+            }
+            catch (DreamHostApiException ex)
+            {
+                var waitTimespan = TimeSpan.FromMilliseconds(_settings.CurrentValue.CheckIntervalInMs * 10);
+                var now = DateTime.Now + waitTimespan;
+                _logger.LogCritical($"Dreamhost Api Exception: {ex.Message}. Next retry in {waitTimespan.TotalMinutes} minutes at {now:F}.");
+                _workTimer.Change(
+                    _settings.CurrentValue.CheckIntervalInMs * 10,
+                    _settings.CurrentValue.CheckIntervalInMs * 10);
+                return;
             }
             catch (AggregateException ex)
             {
@@ -158,7 +163,11 @@ namespace DnsClientServiceAgent
 
             foreach (var domain in _settings.CurrentValue.Domains)
             {
-                var records = dnsRecordsResult.Data.Where(x => x.Record == domain.DomainName && x.Editable == "1" && x.Type.ToLower() == domain.Type).ToList();
+                var records = dnsRecordsResult.Data.Where(x => 
+                    String.Equals(x.Record, domain.DomainName, StringComparison.CurrentCultureIgnoreCase) && 
+                    x.Editable == "1" && 
+                    String.Equals(x.Type, domain.Type, StringComparison.CurrentCultureIgnoreCase)
+                    ).ToList();
                 if (records.Any())
                 {
                     var doUpdate = true;
@@ -167,24 +176,27 @@ namespace DnsClientServiceAgent
                         if (record.Value == publicIp.ToString())
                         {
                             doUpdate = false;
+                            _logger.LogDebug("Existing record matches DNS. No update needed.");
                             break; //found the same record, skipping update cycle.
                         }
                     }
 
                     if (doUpdate)
                     {
+                        _logger.LogDebug("Starting Record update operations as public ip address does not match DNS.");
                         DeleteDnsRecords(records);
-
                         CreateDnsRecords(publicIp);
                     }
                 }
                 else
                 {
+                    _logger.LogDebug("Creating Record as record does not currently exist in DNS.");
                     CreateDnsRecords(publicIp);
                 }
             }
 
             _workTimer.Change(_settings.CurrentValue.CheckIntervalInMs * 10,_settings.CurrentValue.CheckIntervalInMs * 10);
+            _logger.LogDebug("Done with loop.");
         }
 
         public void Start()

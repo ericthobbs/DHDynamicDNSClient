@@ -2,6 +2,8 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace DreamhostApi.Test
 {
@@ -13,6 +15,8 @@ namespace DreamhostApi.Test
         {
             //context.WriteLine("Settings Configured");
             //context.WriteLine("Logging Configured");
+
+            
         }
 
         [TestMethod]

@@ -29,7 +29,9 @@ namespace DnsClientServiceAgent
             var serviceCollection = new ServiceCollection();
             var containerBuilder = new ContainerBuilder();
 
-            serviceCollection.AddLogging(cfg => {
+            serviceCollection.AddLogging(cfg =>
+            {
+                cfg.AddConfiguration(configuration.GetSection("Logging"));
                 cfg.AddDebug();
                 cfg.AddConsole();
             });

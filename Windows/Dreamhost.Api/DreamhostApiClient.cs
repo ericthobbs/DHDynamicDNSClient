@@ -189,6 +189,13 @@ namespace Dreamhost.Api
                 {
                     _logger.LogCritical("Failed to read Dreamhost API.");
 
+                    switch (obj.Data.ToString())
+                    {
+                        case "record_already_exists_remove_first":
+                            throw new DnsRecordAlreadyExistsException(obj,command,additionalParameters);
+
+                    }
+
                     throw new DreamHostApiException(obj);
                 }
 
