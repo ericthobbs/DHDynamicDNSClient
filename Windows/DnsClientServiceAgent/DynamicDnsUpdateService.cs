@@ -194,7 +194,7 @@ namespace DnsClientServiceAgent
 
         public void Stop()
         {
-            _workTimer.Change(TimeSpan.MaxValue, TimeSpan.FromMilliseconds(-1));
+            _workTimer.Change(Timeout.InfiniteTimeSpan, TimeSpan.FromMilliseconds(-1));
         }
 
         private async Task<IPAddress> GetPublicIpAddress()
