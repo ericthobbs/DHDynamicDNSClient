@@ -5,6 +5,7 @@ using Autofac.Extensions.DependencyInjection;
 using Dreamhost.Api;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Topshelf;
 using Topshelf.Autofac;
 
@@ -28,16 +29,21 @@ namespace DnsClientServiceAgent
             var serviceCollection = new ServiceCollection();
             var containerBuilder = new ContainerBuilder();
 
-            serviceCollection.AddLogging();
+            serviceCollection.AddLogging(cfg => {
+                cfg.AddDebug();
+                cfg.AddConsole();
+            });
             serviceCollection.AddAutofac();
 
             serviceCollection.Configure<ApplicationSettings>(configuration.GetSection("Settings"));
+            serviceCollection.AddHttpClient<DynamicDnsUpdateService>();
 
             //Register Types
             containerBuilder.Populate(serviceCollection);
             containerBuilder.RegisterType<DynamicDnsUpdateService>();
             containerBuilder.RegisterType<DreamhostApiClient>();
             containerBuilder.RegisterType<IpAddressService>();
+            
 
             var container = containerBuilder.Build();
 

@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using DnsClientServiceAgent.Extensions;
+using Dreamhost.Api.Exceptions;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
@@ -33,12 +34,16 @@ namespace Dreamhost.Api
         /// <summary>
         /// Constructs a new instance of the API
         /// </summary>
-        public DreamhostApiClient(ILogger<DreamhostApiClient> logger)
+        public DreamhostApiClient(ILogger<DreamhostApiClient> logger, IHttpClientFactory factory)
         {
+            
             _logger = logger;
             ApiHostName = "https://api.dreamhost.com";
 
-            HttpClient = new HttpClient {BaseAddress = new Uri(ApiHostName)};
+            //HttpClient = new HttpClient {BaseAddress = new Uri(ApiHostName)};
+
+            HttpClient = factory.CreateClient();
+            HttpClient.BaseAddress = new Uri(ApiHostName);
         }
 
 
@@ -166,7 +171,16 @@ namespace Dreamhost.Api
 
             if (response.IsSuccessStatusCode)
             {
-                return await response.Content.ReadAsStringAsync();
+                var content = await response.Content.ReadAsStringAsync();
+                var obj = JsonConvert.DeserializeObject<ApiResult>(content);
+                if (obj.Result == "error")
+                {
+                    _logger.LogCritical("Failed to read Dreamhost API.");
+
+                    throw new DreamHostApiException(obj);
+                }
+
+                return content;
             }
 
             _logger.LogError("Failed API call: " + response.ReasonPhrase);
