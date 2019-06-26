@@ -42,8 +42,6 @@ namespace DnsClientServiceAgent
             containerBuilder.Populate(serviceCollection);
             containerBuilder.RegisterType<DynamicDnsUpdateService>();
             containerBuilder.RegisterType<DreamhostApiClient>();
-            containerBuilder.RegisterType<IpAddressService>();
-            
 
             var container = containerBuilder.Build();
 

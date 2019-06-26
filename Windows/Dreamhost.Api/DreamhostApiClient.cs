@@ -40,12 +40,24 @@ namespace Dreamhost.Api
             _logger = logger;
             ApiHostName = "https://api.dreamhost.com";
 
-            //HttpClient = new HttpClient {BaseAddress = new Uri(ApiHostName)};
-
             HttpClient = factory.CreateClient();
             HttpClient.BaseAddress = new Uri(ApiHostName);
         }
 
+        /// <summary>
+        /// Constructs a new instance of the API
+        /// </summary>
+        public DreamhostApiClient(ILogger<DreamhostApiClient> logger)
+        {
+
+            _logger = logger;
+            ApiHostName = "https://api.dreamhost.com";
+
+            HttpClient = new HttpClient()
+            {
+                BaseAddress = new Uri(ApiHostName)
+            };
+        }
 
         /// <summary>
         /// List All DNS Records
