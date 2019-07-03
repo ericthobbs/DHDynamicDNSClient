@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Diagnostics;
-using System.IO.Pipes;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
@@ -83,7 +79,7 @@ namespace DnsClientServiceAgent
                         _settings.CurrentValue.Domains[i].DomainName,
                         ipAddress.ToString(),
                         _settings.CurrentValue.Domains[i].Type,
-                        "Managed by Service");
+                        $"Managed by Service at {DateTime.Now:R}");
                 }
 
                 try
@@ -184,7 +180,7 @@ namespace DnsClientServiceAgent
                     if (doUpdate)
                     {
                         _logger.LogDebug("Starting Record update operations as public ip address does not match DNS.");
-                        DeleteDnsRecords(records);
+                        DeleteDnsRecords(records); //no idea which records are bad and it doesn't matter
                         CreateDnsRecords(publicIp);
                     }
                 }
