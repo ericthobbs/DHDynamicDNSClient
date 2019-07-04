@@ -39,6 +39,6 @@ public:
 
 private:
 	CURL *curl_handle;  //!< handle to the curl instance used by http client
-	static std::atomic<int> s_use_count; //!< prevents deallocation of curl if there are multiple clients.
+	static std::atomic<bool> sCurlHasBeenAllocated; //!< prevents deallocation of curl if there are multiple clients.
 
 };

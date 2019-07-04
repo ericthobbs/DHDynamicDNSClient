@@ -116,6 +116,7 @@
     </Link>
     <ClCompile>
       <AdditionalOptions>-I/usr/include/x86_64-linux-gnu -I/usr/include/uuid</AdditionalOptions>
+      <AdditionalIncludeDirectories>/usr/include/x86_64-linux-gnu/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

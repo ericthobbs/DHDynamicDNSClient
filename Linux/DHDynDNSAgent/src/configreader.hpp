@@ -18,7 +18,7 @@ public:
 
 	~ConfigReader();
 
-	const std::string getSetting(const std::string &key);
+	std::string getSetting(const std::string &key);
 
 private:
 

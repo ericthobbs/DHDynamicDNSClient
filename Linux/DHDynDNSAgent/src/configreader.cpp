@@ -94,14 +94,11 @@ ConfigReader::ConfigReader(const xercesc::MemBufInputSource &buffer)
 	}
 }
 
-ConfigReader::~ConfigReader()
-{
+ConfigReader::~ConfigReader() = default;
 
-}
-
-const std::string ConfigReader::getSetting(const std::string &var)
+std::string ConfigReader::getSetting(const std::string &var)
 {
 	if(keys.count(var) > 0)
-		return keys[var];
-	return "";
+		return std::string(keys[var]);
+	return std::string();
 }
