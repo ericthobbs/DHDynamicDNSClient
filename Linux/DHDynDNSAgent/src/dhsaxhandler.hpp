@@ -7,7 +7,7 @@
 #include <xercesc/framework/XMLFormatter.hpp>
 #include <xercesc/framework/MemBufFormatTarget.hpp>
 
-#include "daemon.hpp"
+#include "dnsrecord.hpp"
 
 #include <deque>
 #include <string>
@@ -17,7 +17,7 @@ class DHSAXHandler : public xercesc::DefaultHandler
 {
 public:
 
-	DHSAXHandler(std::vector<Daemon::DNSRecord> &records, std::string &result, std::string &error);
+	DHSAXHandler(std::vector<DNSRecord> &records, std::string &result, std::string &error);
 
 	void startElement(const XMLCh* const uri,
 						const XMLCh* const localname,
@@ -45,6 +45,6 @@ private:
 	std::string &result;
 	std::string &error_msg;
 
-	std::vector<Daemon::DNSRecord> &records;
-	Daemon::DNSRecord currentData;
+	std::vector<DNSRecord> &records;
+	DNSRecord currentData;
 };

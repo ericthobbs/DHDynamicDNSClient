@@ -13,10 +13,7 @@ HttpClient::HttpClient(const std::string &user_agent)
 {
 	if (!sCurlHasBeenAllocated) {
 		curl_global_init(CURL_GLOBAL_ALL);
-		std::atexit([]
-		{
-			curl_global_cleanup();
-		});
+		std::atexit([]{curl_global_cleanup();});
 		sCurlHasBeenAllocated = true;
 	}
 

@@ -36,7 +36,6 @@ namespace DreamhostDnsApiTestApp
             //Register Types
             containerBuilder.Populate(serviceCollection);
             containerBuilder.RegisterType<DreamhostApiClient>();
-            containerBuilder.RegisterType<IpAddressService>();
 
             var container = containerBuilder.Build();
 
@@ -44,7 +43,6 @@ namespace DreamhostDnsApiTestApp
             var settings = container.Resolve<IOptionsMonitor<ApplicationSettings>>();
             var loggerFactory = container.Resolve<ILoggerFactory>();
             var logger = loggerFactory.CreateLogger<Program>();
-            var ipService = container.Resolve<IpAddressService>();
 
             logger.LogInformation($"Setting APIKEY to {settings.CurrentValue.ApiKey}");
             client.ApiKey = settings.CurrentValue.ApiKey;
@@ -86,15 +84,14 @@ namespace DreamhostDnsApiTestApp
                 }
 
                 var recordSettings = settings.CurrentValue.Domains.First();
-                var myIp = await ipService.FetchExternalIpAddress();
-                var addSuccess = await client.DnsAddRecord(recordSettings.DomainName, myIp, recordSettings.Type, "Test Data");
+                var addSuccess = await client.DnsAddRecord(recordSettings.DomainName, "127.0.0.1", recordSettings.Type, "Test Data");
                 if (addSuccess.Result != "success")
                 {
                     Console.WriteLine("Failed to add record.");
                 }
                 else
                 {
-                    Console.WriteLine($"Successfully added the record {recordSettings.DomainName} with value of {myIp}");
+                    Console.WriteLine($"Successfully added the record {recordSettings.DomainName} with value of 127.0.0.1");
                 }
             }
         }

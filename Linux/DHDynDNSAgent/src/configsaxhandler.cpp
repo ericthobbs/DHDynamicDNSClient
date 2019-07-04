@@ -7,7 +7,6 @@
 #include "util.hpp"
 
 #include <iostream>
-#include <cstdlib>
 #include <algorithm>
 #include <memory>
 #include <syslog.h>
@@ -18,7 +17,7 @@ ConfigSAXHandler::ConfigSAXHandler(std::map<std::string, std::string> &kv) : pKe
 {
 	XMLCh *encoding = XMLString::transcode("UTF-8");
 
-	formatter = new XMLFormatter(encoding,0,&target,XMLFormatter::CharEscapes,XMLFormatter::UnRep_Replace);
+	formatter = new XMLFormatter(encoding,nullptr,&target,XMLFormatter::CharEscapes,XMLFormatter::UnRep_Replace);
 
 	XMLString::release(&encoding);
 }

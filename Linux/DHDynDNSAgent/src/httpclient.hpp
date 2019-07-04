@@ -21,8 +21,6 @@ public:
      */
 	HttpClient(const std::string &user_agent);
 
-	/*! \brief Destructs the HttpClient. Reclaims memory used by the Http Client
-	  */
 	~HttpClient();
 
     /*! \brief Get the response from the Http server
@@ -39,6 +37,5 @@ public:
 
 private:
 	CURL *curl_handle;  //!< handle to the curl instance used by http client
-	static std::atomic<bool> sCurlHasBeenAllocated; //!< prevents deallocation of curl if there are multiple clients.
-
+	static std::atomic<bool> sCurlHasBeenAllocated;
 };

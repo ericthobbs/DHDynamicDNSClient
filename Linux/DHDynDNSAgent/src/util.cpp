@@ -7,7 +7,7 @@
 #include <algorithm>
 #include <boost/algorithm/string.hpp>
 
-const std::string filterString(const std::string &raw)
+std::string filterString(const std::string &raw)
 {
 	std::string output = raw;
 

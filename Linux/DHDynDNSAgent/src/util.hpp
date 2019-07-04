@@ -13,4 +13,4 @@
  *  \param raw the string to filter out newlines and trim spaces from.
  *  \returns the filtered string
  */
-const std::string filterString(const std::string &raw);
+std::string filterString(const std::string &raw);
