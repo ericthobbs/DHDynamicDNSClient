@@ -5,13 +5,9 @@
 #include "dhsaxhandler.hpp"
 #include "malformedxmlexception.hpp"
 #include "util.hpp"
-#include "daemon.hpp"
 #include <syslog.h>
 
-#include <cstdlib>
-#include <algorithm>
 #include <memory>
-#include <iostream>
 
 XERCES_CPP_NAMESPACE_USE
 
@@ -31,7 +27,7 @@ namespace
 	const static std::string NODE_ZONE = "zone";
 }
 
-DHSAXHandler::DHSAXHandler(std::vector<Daemon::DNSRecord> &rvec,
+DHSAXHandler::DHSAXHandler(std::vector<DNSRecord> &rvec,
 							std::string &res, std::string &err) : records(rvec),result(res), error_msg(err)
 {
 	XMLCh *encoding = XMLString::transcode("UTF-8");

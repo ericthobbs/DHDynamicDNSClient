@@ -16,7 +16,6 @@
 
 XERCES_CPP_NAMESPACE_USE
 
-
 DHXMLReader::DHXMLReader(const xercesc::MemBufInputSource &buffer)
 {
 	std::unique_ptr<SAX2XMLReader> parser(XMLReaderFactory::createXMLReader());
@@ -61,7 +60,7 @@ DHXMLReader::~DHXMLReader()
 
 }
 
-std::vector<Daemon::DNSRecord> DHXMLReader::getRecords() const
+std::vector<DNSRecord> DHXMLReader::getRecords() const
 {
 	return records;
 }

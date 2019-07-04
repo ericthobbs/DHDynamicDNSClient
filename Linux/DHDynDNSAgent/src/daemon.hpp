@@ -5,6 +5,7 @@
 
 #include "parameters.hpp"
 #include "httpclient.hpp"
+#include "dnsrecord.hpp"
 
 #include <boost/utility.hpp>
 #include <unistd.h>

@@ -34,6 +34,35 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="configfileexception.cpp" />
+    <ClCompile Include="configreader.cpp" />
+    <ClCompile Include="configsaxhandler.cpp" />
+    <ClCompile Include="dhapikeypermissionexception.cpp" />
+    <ClCompile Include="dhapirecordnotfoundexception.cpp" />
+    <ClCompile Include="dhsaxhandler.cpp" />
+    <ClCompile Include="dhxmlreader.cpp" />
+    <ClCompile Include="httpclient.cpp" />
+    <ClCompile Include="httpclientexception.cpp" />
+    <ClCompile Include="malformedxmlexception.cpp" />
+    <ClCompile Include="parameters.cpp" />
+    <ClCompile Include="util.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="configfileexception.hpp" />
+    <ClInclude Include="configreader.hpp" />
+    <ClInclude Include="configsaxhandler.hpp" />
+    <ClInclude Include="dhapikeypermissionexception.hpp" />
+    <ClInclude Include="dhapirecordnotfoundexception.hpp" />
+    <ClInclude Include="dhsaxhandler.hpp" />
+    <ClInclude Include="dhxmlreader.hpp" />
+    <ClInclude Include="dnsrecord.hpp" />
+    <ClInclude Include="httpclient.hpp" />
+    <ClInclude Include="httpclientexception.hpp" />
+    <ClInclude Include="malformedxmlexception.hpp" />
+    <ClInclude Include="parameters.hpp" />
+    <ClInclude Include="util.hpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{143f9f49-6f51-4472-b0bc-346150a86782}</ProjectGuid>
     <Keyword>Linux</Keyword>

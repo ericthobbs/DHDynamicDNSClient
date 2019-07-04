@@ -8,7 +8,7 @@
 #include <vector>
 #include <xercesc/framework/MemBufInputSource.hpp>
 
-#include "daemon.hpp"
+#include "dnsrecord.hpp"
 
 #include <vector>
 
@@ -19,13 +19,13 @@ public:
 
 	~DHXMLReader();
 
-	std::vector<Daemon::DNSRecord> getRecords() const;
+	std::vector<DNSRecord> getRecords() const;
 
 	bool success() const;
 	const std::string& getError() const;
 
 private:
-	std::vector<Daemon::DNSRecord> records;
+	std::vector<DNSRecord> records;
 	std::string response_message;
 	std::string error_msg;
 };

@@ -267,7 +267,7 @@ const std::string Daemon::getIPFamilyType(const std::string &addr) const
 	return family;
 }
 
-const Daemon::DNSRecord Daemon::executeDNSFetch(const std::string &host_name, 
+const DNSRecord Daemon::executeDNSFetch(const std::string &host_name, 
 											const std::string &record_type)
 {
 	
