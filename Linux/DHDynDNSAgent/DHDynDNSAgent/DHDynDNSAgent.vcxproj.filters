@@ -6,16 +6,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\agent.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\daemon.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
+    <ClCompile Include="..\src\agent.cpp" />
+    <ClCompile Include="..\src\daemon.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\daemon.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
+    <Xml Include="..\config\etc\config.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\daemon.hpp" />
   </ItemGroup>
 </Project>

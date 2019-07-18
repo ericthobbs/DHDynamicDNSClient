@@ -6,8 +6,12 @@
 #include "httpclientexception.hpp"
 #include <cstring>
 #include <memory>
+#include <functional>
+#include <cassert>
 
 std::atomic<bool> HttpClient::sCurlHasBeenAllocated(false);
+
+size_t writeCallback(char* contents, size_t size, size_t nmemb, std::string* buffer);
 
 HttpClient::HttpClient(const std::string &user_agent)
 {
@@ -18,7 +22,11 @@ HttpClient::HttpClient(const std::string &user_agent)
 	}
 
 	curl_handle = curl_easy_init();
+	curl_easy_setopt(curl_handle, CURLOPT_VERBOSE, 1);
+	curl_easy_setopt(curl_handle, CURLOPT_FOLLOWLOCATION, 1);
+	curl_easy_setopt(curl_handle, CURLOPT_SSL_ENABLE_ALPN, 0);
 	curl_easy_setopt(curl_handle, CURLOPT_USERAGENT, user_agent.c_str());
+	curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, &writeCallback);
 }
 
 HttpClient::~HttpClient()
@@ -26,36 +34,29 @@ HttpClient::~HttpClient()
 	curl_easy_cleanup(curl_handle);
 }
 
-const std::string HttpClient::getResponse(const std::string &url)
+std::string HttpClient::getResponse(const std::string &url)
 {
-	std::string memory;
+	std::string buffer;
 
-	auto del = [](char * p) { curl_free(p); };
-
-	std::unique_ptr<char, decltype(del)>
-		safe_url( curl_easy_escape(curl_handle,url.c_str(), url.size()), del );
-	
-	curl_easy_setopt(curl_handle, CURLOPT_URL, /*url.c_str()*/ *safe_url);
-	curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, HttpClient::WriteCallback);
-	curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, static_cast<void*>(&memory));
+	curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, &writeCallback);
+	curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, &buffer);
+	curl_easy_setopt(curl_handle, CURLOPT_URL, url.c_str());
 
 	CURLcode res = curl_easy_perform(curl_handle);
 
 	if(res != CURLE_OK)
 		throw HttpClientException(curl_easy_strerror(res));
 
-	return memory;
+	curl_easy_reset(curl_handle);
+	
+	return buffer;
 }
 
-size_t HttpClient::WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
-{
-	std::string &mem = *static_cast<std::string*>(userp);
-	std::string buffer;
-	buffer.resize(size*nmemb);
-
-	memcpy(&buffer.front(), static_cast<char**>(contents), size * nmemb );
-
-	mem.append(buffer);
-
-	return size * nmemb;
+size_t writeCallback(char* contents, size_t size, size_t nmemb, std::string* buffer) {
+	size_t realsize = size * nmemb;
+	if (buffer == NULL) {
+		return 0;
+	}
+	buffer->append(contents, realsize);
+	return realsize;
 }

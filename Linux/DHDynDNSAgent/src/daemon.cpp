@@ -16,6 +16,7 @@
 #include <uuid.h>
 
 #include <syslog.h>
+#include <libexplain/fork.h>
 
 #include <xercesc/util/XMLString.hpp>
 #include <xercesc/util/PlatformUtils.hpp>
@@ -34,7 +35,7 @@
 
 namespace
 {
-	static const std::string kUserAgent = "DHDynDNSAgent/1.0 (http://www.badpointer.net)";
+	static const std::string kUserAgent = "DHDynDNSAgent/1.0 (https://www.badpointer.net)";
 
 	static const std::string kDHApiMethodDnsAdd    = "dns-add_record";
 	static const std::string kDHApiMethodDnsList   = "dns-list_records";
@@ -70,17 +71,8 @@ Daemon::Daemon(const Parameters &p) : params(p), client(kUserAgent)
 
 Daemon::~Daemon()
 {
-	try
-	{
-		xercesc::XMLPlatformUtils::Terminate();
-		syslog(LOG_DEBUG, "Xerces-c terminated");
-	}
-	catch(xercesc::XMLException &e)
-	{
-		char *message = xercesc::XMLString::transcode(e.getMessage());
-		syslog(LOG_ERR, "Xerces-c shutdown error: %s", message);
-		xercesc::XMLString::release(&message);
-	}
+	xercesc::XMLPlatformUtils::Terminate();
+	syslog(LOG_DEBUG, "Xerces-c terminated");
 
 	closelog();
 }
@@ -94,24 +86,44 @@ bool Daemon::daemonize()
 	}
 
 	pid = fork();
-	if(pid < 0)
-		return false;
+	if (pid < 0) {
+		syslog(LOG_ERR, "Failed to fork. Error %s", explain_fork());
+		exit(EXIT_FAILURE);
+	}
 	
 	if(pid > 0)
 	{
 		//Parent process 
-
+		//TODO: Change the return value of the method to return an exit code
 		exit(EXIT_SUCCESS);
 	}
 
 	umask(0);
 
 	sid = setsid();
-	if(sid < 0)
-		return false;
+	if (sid < 0) {
+		syslog(LOG_ERR, "Failed to set sid().");
+		exit(EXIT_FAILURE);
+	}
 
-	if((chdir("/")) < 0)
-		return false;
+	//double fork
+	pid = fork();
+	if (pid < 0)
+	{
+		syslog(LOG_ERR, "Failed to double fork.");
+		exit(EXIT_FAILURE);
+	}
+	if(pid > 0)
+	{
+		//Parent Process, Exit.
+		//TODO: Change the return value of the method to return an exit code
+		exit(EXIT_SUCCESS);
+	}
+
+	if ((chdir("/")) < 0) {
+		syslog(LOG_ERR, "Failed to chdir(/).");
+		exit(EXIT_FAILURE);
+	}
 
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
@@ -134,14 +146,20 @@ const bool Daemon::createPidFile(const std::string &lockfile, pid_t pid) const
 	return true;
 }
 
+/**! /brief Generate a 36 character guid as a string
+ * 
+ */
 const std::string Daemon::generateUUID() const
 {
-		static const int UUID_LEN = 16;
-		uuid_t uuid;
-		uuid_generate(uuid);
-		char output[UUID_LEN+1] = {0};
-		uuid_unparse(uuid,output);
-		return output;
+	static const int UUID_LEN = 36;
+	uuid_t uuid;
+	uuid_generate(uuid);
+	char* output = new char[UUID_LEN+1];
+	memset(output, 0, UUID_LEN);
+	uuid_unparse(uuid, output);
+	std::string guidAsString(output);
+	delete [] output;
+	return guidAsString;
 }
 
 int Daemon::runMainLoop()
@@ -155,6 +173,8 @@ int Daemon::runMainLoop()
 
 			//Fetch External IP and record Type
 			std::string external_ip = fetchExternalIP();
+			
+			std::cout << "External IP is: " << external_ip << std::endl;
 			syslog(LOG_INFO, "External ip is: %s", external_ip.c_str());
 
 			//Access DH API and query records
@@ -163,6 +183,7 @@ int Daemon::runMainLoop()
 			if(!rec.bError)
 			{
 				//found existing record, delete it
+				std::cout << "Domain " << rec.Record << " found in DNS with value of " << rec.Value << " with a type of " << rec.Type << std::endl;
 				syslog(LOG_INFO, "Domain %s found in DNS with a value of %s and a type of %s belonging to account id %s",
 								rec.Record.c_str(), rec.Value.c_str(), rec.Type.c_str(), rec.accountID.c_str() );
 
@@ -217,7 +238,7 @@ int Daemon::runMainLoop()
 
 
 		syslog(LOG_DEBUG,"sleeping for %s seconds.", config_interval.c_str() );
-		std::chrono::minutes minutes(240);
+		std::chrono::minutes minutes(std::stoi(config_interval));
 		std::this_thread::sleep_for(minutes);
 
 	}

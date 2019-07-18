@@ -16,7 +16,7 @@
   </Domain>
   <Settings>
     <!-- URL to a server that returns an xml document that has a path of /ip/address -->
-    <ExternalIPCheck>http://scripts.badpointer.net/external_ip.php</ExternalIPCheck>
+    <ExternalIPCheck>https://scripts.badpointer.net/external_ip.php</ExternalIPCheck>
     <!-- name of the element that contains the ip address. e.g 127.0.0.1 -->
     <ExternalIPCheckElement>ip.address</ExternalIPCheckElement>
     <!-- How often to check if the hosts external ip address has changed. By default this is every 240 minutes as 

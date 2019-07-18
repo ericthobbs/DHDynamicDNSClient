@@ -5,6 +5,8 @@
 
 #include <string>
 #include <atomic>
+#include <future>
+
 #include <curl/curl.h>
 
 /*! \brief Simple HTTP client based on cURL.
@@ -28,12 +30,7 @@ public:
         \return the response as a string.
         \exception HttpClientException upon error
      */
-	const std::string getResponse(const std::string &url);
-
-    /*! \brief Internal Callback function
-        \internal this function is used internally and should not be used by client code.
-     */
-	static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp);
+	std::string getResponse(const std::string &url);
 
 private:
 	CURL *curl_handle;  //!< handle to the curl instance used by http client

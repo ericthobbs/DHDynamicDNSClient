@@ -76,6 +76,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetExt />
+    <IncludePath>..\Linux\LibSleepy\</IncludePath>
   </PropertyGroup>
   <ItemGroup>
     <ClCompile Include="..\src\agent.cpp" />
@@ -85,21 +86,29 @@
     <ClInclude Include="..\src\daemon.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Windows\LibSleepy\LibSleepy.vcxproj">
+    <ProjectReference Include="..\..\LibSleepy\LibSleepy.vcxproj">
       <Project>{143f9f49-6f51-4472-b0bc-346150a86782}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\config\etc\config.xml">
+      <SubType>Designer</SubType>
+    </Xml>
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>
       <LibraryDependencies>
       </LibraryDependencies>
-      <AdditionalDependencies>`pkg-config --libs   xerces-c libcurl uuid` -lpopt;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>`pkg-config --libs   xerces-c libcurl uuid` -lpopt -lexplain;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
       <AdditionalOptions>-I/usr/include/x86_64-linux-gnu -I/usr/include/uuid</AdditionalOptions>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Linux\LibSleepy;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Verbose>true</Verbose>
     </ClCompile>
+    <PreBuildEvent>
+      <AdditionalSourcesToCopyMapping>..\config\etc\config.xml</AdditionalSourcesToCopyMapping>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>

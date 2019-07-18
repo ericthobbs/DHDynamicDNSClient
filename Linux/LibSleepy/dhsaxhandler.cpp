@@ -13,22 +13,22 @@ XERCES_CPP_NAMESPACE_USE
 
 namespace
 {
-	const static std::string DREAMHOST_ROOTNODE = "dreamhost";
-	const static std::string DREAMHOST_DATANODE = "data";
-	const static std::string DREAMHOST_RESULTNODE = "result";
-	const static std::string DREAMHOST_SUCCESS = "success";
+	const std::string DREAMHOST_ROOTNODE = "dreamhost";
+	const std::string DREAMHOST_DATANODE = "data";
+	const std::string DREAMHOST_RESULTNODE = "result";
+	const std::string DREAMHOST_SUCCESS = "success";
 
-	const static std::string NODE_ACCOUNTID = "account_id";
-	const static std::string NODE_COMMENT = "comment";
-	const static std::string NODE_EDITABLE = "editable";
-	const static std::string NODE_RECORD = "record";
-	const static std::string NODE_TYPE = "type";
-	const static std::string NODE_VALUE = "value";
-	const static std::string NODE_ZONE = "zone";
+	const std::string NODE_ACCOUNTID = "account_id";
+	const std::string NODE_COMMENT = "comment";
+	const std::string NODE_EDITABLE = "editable";
+	const std::string NODE_RECORD = "record";
+	const std::string NODE_TYPE = "type";
+	const std::string NODE_VALUE = "value";
+	const std::string NODE_ZONE = "zone";
 }
 
 DHSAXHandler::DHSAXHandler(std::vector<DNSRecord> &rvec,
-							std::string &res, std::string &err) : records(rvec),result(res), error_msg(err)
+							std::string &res, std::string &err) : result(res), error_msg(err), records(rvec)
 {
 	XMLCh *encoding = XMLString::transcode("UTF-8");
 
@@ -148,7 +148,5 @@ void DHSAXHandler::characters(const XMLCh* const chars, const XMLSize_t length)
 
 bool DHSAXHandler::hasError() const
 {
-	if(result != DREAMHOST_SUCCESS)
-		return false;
-	return true;
+	return result != DREAMHOST_SUCCESS;
 }

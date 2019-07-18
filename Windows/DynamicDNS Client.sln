@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamhostDnsApiTestApp", "D
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DHDynDNSAgent", "..\Linux\DHDynDNSAgent\DHDynDNSAgent\DHDynDNSAgent.vcxproj", "{BC50A642-6551-4B7F-AA98-3085E99A6B5B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibSleepy", "LibSleepy\LibSleepy.vcxproj", "{143F9F49-6F51-4472-B0BC-346150A86782}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibSleepy", "..\Linux\LibSleepy\LibSleepy.vcxproj", "{143F9F49-6F51-4472-B0BC-346150A86782}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Linux", "Linux", "{008C4B23-425D-49F8-98DB-2A6C14730044}"
 EndProject

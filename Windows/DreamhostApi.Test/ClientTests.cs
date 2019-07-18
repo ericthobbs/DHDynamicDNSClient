@@ -15,8 +15,7 @@ namespace DreamhostApi.Test
         {
             //context.WriteLine("Settings Configured");
             //context.WriteLine("Logging Configured");
-
-            
+            //context.WriteLine("DI Configured");
         }
 
         [TestMethod]

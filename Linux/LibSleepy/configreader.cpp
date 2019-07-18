@@ -5,6 +5,11 @@
 #include <iostream>
 #include <stdexcept>
 #include <memory>
+#define _GNU_SOURCE
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <libexplain/realpath.h>
 
 #include "configreader.hpp"
 #include "configfileexception.hpp"
@@ -29,7 +34,20 @@ ConfigReader::ConfigReader(const std::string &file)
 
 	try
 	{
-		parser->parse(file.c_str());
+		char resolved_path[PATH_MAX+1] = { 0 };
+		char* path = realpath(file.c_str(),nullptr);
+		if(path == nullptr)
+		{
+			char buffer[PATH_MAX+1] = { 0 };
+			getcwd(buffer,PATH_MAX);
+			std::cerr << "working directory: " << buffer << std::endl;
+			std::cerr << "failed to realpath() '" << file << "'. Error:" << explain_realpath(file.c_str(), nullptr) << std::endl;
+			char* error = strerror(errno);
+			std::cerr << error << std::endl;
+		}
+		parser->parse(path);
+		if(path != nullptr)
+			free(path);
 	}
 	catch(const XMLException &ex)
 	{

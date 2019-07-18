@@ -125,7 +125,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetExt>.a</TargetExt>
-    <ProjectPublicIncludePath>$(RemoteProjectDir);/home/eric/projects/LibSleepy</ProjectPublicIncludePath>
+    <ProjectPublicIncludePath>$(RemoteProjectDir);/home/eric/projects/LibSleepy;C:\Users\EricT\source\repos\ericthobbs\DHDynamicDNSClient\Linux\LibSleepy</ProjectPublicIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <TargetExt>.a</TargetExt>
