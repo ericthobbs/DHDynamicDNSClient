@@ -1,3 +1,3 @@
 # DHDynamicDNSClient
 
-Simple Windows / Linux DDNS liek client for Dreamhost DNS api.
+Simple Windows / Linux DDNS like client for Dreamhost DNS api.
