@@ -56,6 +56,9 @@ private:
 	std::string config_zone;
 	std::string config_interval;
 
+	std::string config_username;
+	std::string config_groupname;
+
 	/*! \brief generate a 64bit UUID
 	 *	\returns string form of the generated UUID
 	 */

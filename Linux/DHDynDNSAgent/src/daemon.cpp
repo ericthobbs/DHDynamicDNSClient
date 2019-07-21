@@ -6,14 +6,17 @@
 #include <chrono>
 #include <thread>
 
+#include <unistd.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <pwd.h>
+#include <grp.h>
 #include <netdb.h>
 
 #include <popt.h>
 
-#include <uuid.h>
+#include <uuid/uuid.h>
 
 #include <syslog.h>
 #include <libexplain/fork.h>
@@ -67,6 +70,9 @@ Daemon::Daemon(const Parameters &p) : params(p), client(kUserAgent)
 
 	config_apikey = config.getSetting("Configuration.Api.Key");
 	config_apihost = config.getSetting("Configuration.Api.HostName");
+
+	config_username = config.getSetting("Configuration.Settings.RunAsUser");
+	config_groupname = config.getSetting("Configuration.Settings.RunAsGroup");
 }
 
 Daemon::~Daemon()
@@ -98,8 +104,6 @@ bool Daemon::daemonize()
 		exit(EXIT_SUCCESS);
 	}
 
-	umask(0);
-
 	sid = setsid();
 	if (sid < 0) {
 		syslog(LOG_ERR, "Failed to set sid().");
@@ -121,8 +125,38 @@ bool Daemon::daemonize()
 	}
 
 	if ((chdir("/")) < 0) {
+		//todo: attempt to change to the users home dir if it exists?
 		syslog(LOG_ERR, "Failed to chdir(/).");
 		exit(EXIT_FAILURE);
+	}
+
+	umask(0);
+
+	uid_t runningAsUid = getuid();
+	if(runningAsUid == 0 && params.dropPrivileges())
+	{
+		//running as root, lets fix that
+		syslog(LOG_INFO, "running as root, droping privs to user:%s, group:%s", "$USER$" "$GROUP$");
+		passwd* pwd = getpwnam(config_username.c_str());
+		group* grp = getgrnam(config_groupname.c_str());
+
+		if (pwd == nullptr)
+		{
+			syslog(LOG_ERR, "User %s does not exist.", config_username.c_str());
+			exit(EXIT_FAILURE);
+		}
+
+		if (grp == nullptr)
+		{
+			syslog(LOG_ERR, "Group %s does not exist.", config_groupname.c_str());
+			exit(EXIT_FAILURE);
+		}
+		
+		setgid(grp->gr_gid);
+		setuid(pwd->pw_uid);
+
+		// set group id first via setgid(gid_of_group)
+		// set user id second via setuid(uid_of_user)
 	}
 
 	close(STDIN_FILENO);

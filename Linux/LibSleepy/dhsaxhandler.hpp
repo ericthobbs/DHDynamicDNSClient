@@ -36,7 +36,7 @@ public:
 	bool hasError() const;
 
 private:
-	std::deque<std::string> depth;
+	std::deque<std::string> depth{};
 	xercesc::XMLFormatter *formatter;
 	xercesc::MemBufFormatTarget target;
 

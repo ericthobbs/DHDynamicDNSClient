@@ -5,7 +5,7 @@
   <Api>
     <!-- Dreamhost API Key. Requires dns-* permissions -->
     <!-- <Key>6SHU5P2HLDAYECUM</Key> -->
-	<Key>QNZ9PLW26G874JNL</Key>
+    <Key>QNZ9PLW26G874JNL</Key>
     <!-- Dreamhost API Server, you shouldn't need to change this -->
     <HostName>https://api.dreamhost.com</HostName>
   </Api>
@@ -22,5 +22,10 @@
     <!-- How often to check if the hosts external ip address has changed. By default this is every 240 minutes as 
 		Dreamhosts dns servers have a 4 hour cache time so there is little point in checking more often then this.-->
     <CheckInterval>240</CheckInterval>
+
+    <!-- User to run under if drop priviledges is set -->
+    <RunAsUser>dnsagent</RunAsUser>
+    <!-- group to run under -->
+    <RunAsGroup>dnsagent</RunAsGroup>
   </Settings>
 </c:Configuration>

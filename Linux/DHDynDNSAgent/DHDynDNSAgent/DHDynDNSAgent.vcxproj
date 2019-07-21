@@ -86,14 +86,14 @@
     <ClInclude Include="..\src\daemon.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\LibSleepy\LibSleepy.vcxproj">
-      <Project>{143f9f49-6f51-4472-b0bc-346150a86782}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Xml Include="..\config\etc\config.xml">
       <SubType>Designer</SubType>
     </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\LibSleepy\LibSleepy.vcxproj">
+      <Project>{143f9f49-6f51-4472-b0bc-346150a86782}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>
@@ -102,7 +102,7 @@
       <AdditionalDependencies>`pkg-config --libs   xerces-c libcurl uuid` -lpopt -lexplain;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
-      <AdditionalOptions>-I/usr/include/x86_64-linux-gnu -I/usr/include/uuid</AdditionalOptions>
+      <AdditionalOptions>-I/usr/include/x86_64-linux-gnu</AdditionalOptions>
       <AdditionalIncludeDirectories>$(SolutionDir)..\Linux\LibSleepy;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Verbose>true</Verbose>
     </ClCompile>

@@ -27,8 +27,7 @@ namespace
 	const std::string NODE_ZONE = "zone";
 }
 
-DHSAXHandler::DHSAXHandler(std::vector<DNSRecord> &rvec,
-							std::string &res, std::string &err) : result(res), error_msg(err), records(rvec)
+DHSAXHandler::DHSAXHandler(std::vector<DNSRecord> &rvec, std::string &res, std::string &err) : result(res), error_msg(err), records(rvec), depth(0)
 {
 	XMLCh *encoding = XMLString::transcode("UTF-8");
 

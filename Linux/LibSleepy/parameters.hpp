@@ -13,7 +13,7 @@ class Parameters : boost::noncopyable
 public:
 
 	Parameters();   //!< constructs a new instance of the parser
-	~Parameters();  //!< destructs the command line parser
+	~Parameters();
 
     //! \brief parses the arguments passed from the command line.
     //! \param argc count of arguments
@@ -30,16 +30,18 @@ public:
 	const std::string checkURL() const;
 
 	//! \brief if true, user wants to ignore the lock file
-	const bool forceStart() const;
+	bool forceStart() const;
 
 	//! \brief user wants to see the version information
-	const bool showVersion() const;
+	bool showVersion() const;
 
 	//! \brief display extra information if true
-	const bool verbose() const;
+	bool verbose() const;
 
 	//! \brief do not fork the daemon.
-	const bool noForking() const;
+	bool noForking() const;
+
+	bool dropPrivileges() const;
 
 private:
 	char *config_file;  //!< \brief holds the path to the configuration file
@@ -49,4 +51,5 @@ private:
 	int show_version;	//!< \brief user wants to only show version/copyright info
 	int verbose_mode;	//!< \brief dump extra information
 	int dont_fork;		//!< \brief no forking
+	int drop_privileges;//!< \brief drop user privileges
 };

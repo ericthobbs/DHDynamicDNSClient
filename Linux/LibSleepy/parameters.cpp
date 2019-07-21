@@ -14,6 +14,7 @@ namespace
 	const int         SHOW_VERSION = 0;
 	const int         VERBOSE_MODE = 0;
 	const int         FORK = 0;
+	const int         DROP_PRIVILEGES = 0;
 }
 
 Parameters::Parameters()
@@ -24,6 +25,7 @@ Parameters::Parameters()
 	show_version = SHOW_VERSION;
 	verbose_mode = VERBOSE_MODE;
 	dont_fork = FORK;
+	drop_privileges = DROP_PRIVILEGES;
 }
 
 Parameters::~Parameters()
@@ -35,12 +37,13 @@ Parameters::~Parameters()
 void Parameters::parse(const int argc, const char ** argv)
 {
 	poptOption optionsTable[] = {
-		{ "config-file", 'c', POPT_ARG_STRING, static_cast<void*>(&config_file), 0, "configuration file to use", "FILE" },
-		{ "lock-file",   'l', POPT_ARG_STRING, static_cast<void*>(&lock_file)  , 0, "lock file", "FILE" },
-		{ "force",       'f', POPT_ARG_NONE,   &force_start, 0, "ignore lock file", NULL},
-		{ "version",       0, POPT_ARG_NONE,   &show_version, 0, "show version information", NULL},
-		{ "verbose",     'v', POPT_ARG_NONE,   &verbose_mode, 0, "output more information", NULL},
-		{ "dont-fork",   'd', POPT_ARG_NONE,   &dont_fork, 0, "Don't Fork", NULL },
+		{ "config-file",	'c',	POPT_ARG_STRING,	static_cast<void*>(&config_file),	0, "configuration file to use", "FILE" },
+		{ "lock-file",		'l',	POPT_ARG_STRING,	static_cast<void*>(&lock_file)  ,	0, "lock file", "FILE" },
+		{ "force",			'f',	POPT_ARG_NONE,	&force_start,						0, "ignore lock file", NULL},
+		{ "version",       0,		POPT_ARG_NONE,	&show_version,						0, "show version information", NULL},
+		{ "verbose",		'v',	POPT_ARG_NONE,	&verbose_mode,						0, "output more information", NULL},
+		{ "dont-fork",		'd',	POPT_ARG_NONE,	&dont_fork,							0, "Don't Fork", NULL },
+		{"drop-privileges",	'p',	POPT_ARG_NONE,	&drop_privileges,					0, "Drop Privileges", NULL},
 #if defined(IPCLIENT)
 		{ "check-url",   'u', POPT_ARG_STRING, static_cast<void*>(&check_url)  , 0, "ip check url", "URL" }
 #endif
@@ -80,22 +83,27 @@ const std::string Parameters::checkURL() const
 	return check_url;
 }
 
-const bool Parameters::forceStart() const
+bool Parameters::forceStart() const
 {
 	return (bool)force_start;
 }
 
-const bool Parameters::showVersion() const
+bool Parameters::showVersion() const
 {
 	return (bool)show_version;
 }
 
-const bool Parameters::verbose() const
+bool Parameters::verbose() const
 {
 	return (bool)verbose_mode;
 }
 
-const bool Parameters::noForking() const
+bool Parameters::noForking() const
 {
 	return (bool)dont_fork;
+}
+
+bool Parameters::dropPrivileges() const
+{
+	return (bool)drop_privileges;
 }

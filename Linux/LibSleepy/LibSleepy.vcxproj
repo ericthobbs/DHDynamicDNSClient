@@ -72,6 +72,7 @@
     <ApplicationTypeRevision>1.0</ApplicationTypeRevision>
     <TargetLinuxPlatform>Generic</TargetLinuxPlatform>
     <LinuxProjectType>{2238F9CD-F817-4ECC-BD14-2524D2669B35}</LinuxProjectType>
+    <ProjectName>Sleepy</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
@@ -125,7 +126,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetExt>.a</TargetExt>
-    <ProjectPublicIncludePath>$(RemoteProjectDir);/home/eric/projects/LibSleepy;C:\Users\EricT\source\repos\ericthobbs\DHDynamicDNSClient\Linux\LibSleepy</ProjectPublicIncludePath>
+    <ProjectPublicIncludePath>$(RemoteProjectDir);/home/eric/projects/Sleepy;C:\Users\EricT\source\repos\ericthobbs\DHDynamicDNSClient\Linux\LibSleepy</ProjectPublicIncludePath>
+    <TargetName>Lib$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <TargetExt>.a</TargetExt>
