@@ -91,7 +91,7 @@
     </Xml>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\LibSleepy\LibSleepy.vcxproj">
+    <ProjectReference Include="..\..\SleepyLib\LibSleepy.vcxproj">
       <Project>{143f9f49-6f51-4472-b0bc-346150a86782}</Project>
     </ProjectReference>
   </ItemGroup>
