@@ -7,6 +7,7 @@
     <Description>Simple Dreamhost Api Library</Description>
     <Copyright>Copyright  Eric Hobbs © 2016</Copyright>
     <OutputPath>..\bin\$(Configuration)\</OutputPath>
+    <UserSecretsId>AAA8A47D-5C05-497D-BE9C-95828792C6AA</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
