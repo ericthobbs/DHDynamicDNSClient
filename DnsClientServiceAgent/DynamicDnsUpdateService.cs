@@ -143,6 +143,8 @@ namespace DnsClientServiceAgent
                 return;
             }
 
+            _logger.LogDebug($"Public IP address: {publicIp}.");
+
             var dnsRecordsResult = dnsRecordsListTask.Result;
 
             if (dnsRecordsResult == null || !dnsRecordsResult.Success || !dnsRecordsResult.Data.Any())
@@ -169,30 +171,31 @@ namespace DnsClientServiceAgent
                     var doUpdate = true;
                     foreach (var record in records)
                     {
+                        _logger.LogDebug($"Found Record {record.Record} {record.Type} with ip {record.Value}");
                         if (record.Value == publicIp.ToString())
                         {
                             doUpdate = false;
-                            _logger.LogDebug("Existing record matches DNS. No update needed.");
+                            _logger.LogInformation("Existing record matches DNS. No update needed.");
                             break; //found the same record, skipping update cycle.
                         }
                     }
 
                     if (doUpdate)
                     {
-                        _logger.LogDebug("Starting Record update operations as public ip address does not match DNS.");
+                        _logger.LogInformation("Starting Record update operations as public ip address does not match DNS.");
                         DeleteDnsRecords(records); //no idea which records are bad and it doesn't matter
                         CreateDnsRecords(publicIp);
                     }
                 }
                 else
                 {
-                    _logger.LogDebug("Creating Record as record does not currently exist in DNS.");
+                    _logger.LogInformation("Creating Record as record does not currently exist in DNS.");
                     CreateDnsRecords(publicIp);
                 }
             }
-
+            
             _workTimer.Change(_settings.CurrentValue.CheckIntervalInMs * 10,_settings.CurrentValue.CheckIntervalInMs * 10);
-            _logger.LogDebug("Done with loop.");
+            _logger.LogDebug($"Done with loop. Next loop in {TimeSpan.FromMilliseconds(_settings.CurrentValue.CheckIntervalInMs)}");
         }
 
         public void Start()

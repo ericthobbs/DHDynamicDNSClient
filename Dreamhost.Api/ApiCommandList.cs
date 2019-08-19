@@ -7,9 +7,14 @@ namespace Dreamhost.Api
 {
     public class ApiCommandList
     {
-        public object order { get; set; }
-        public object args { get; set; }
-        public object optargs { get; set; }
+        [JsonProperty(PropertyName = "order")]
+        public object Order { get; set; }
+
+        [JsonProperty(PropertyName = "args")]
+        public object Arguments { get; set; }
+
+        [JsonProperty(PropertyName = "optargs")]
+        public object OptionalArguments { get; set; }
 
         [JsonProperty(PropertyName = "cmd")]
         public string Command { get; set; }

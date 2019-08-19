@@ -4,7 +4,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using DnsClientServiceAgent;
 using Dreamhost.Api;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +14,12 @@ namespace DreamhostDnsApiTestApp
 {
     class Program
     {
+
+        /// <summary>
+        /// Example/Test Application for DNS Api
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         static async Task Main(string[] args)
         {
             var builder = new ConfigurationBuilder()
