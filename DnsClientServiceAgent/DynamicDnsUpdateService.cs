@@ -22,8 +22,6 @@ namespace DnsClientServiceAgent
 
         private readonly System.Threading.Timer _workTimer;
 
-        public const string RemoteScript = "http://scripts.badpointer.net/external_ip.php";
-
         public DynamicDnsUpdateService(
             ILoggerFactory loggerFactory, 
             ILogger<DynamicDnsUpdateService> logger,
@@ -162,9 +160,9 @@ namespace DnsClientServiceAgent
             foreach (var domain in _settings.CurrentValue.Domains)
             {
                 var records = dnsRecordsResult.Data.Where(x => 
-                    String.Equals(x.Record, domain.DomainName, StringComparison.CurrentCultureIgnoreCase) && 
+                    string.Equals(x.Record, domain.DomainName, StringComparison.CurrentCultureIgnoreCase) && 
                     x.Editable == "1" && 
-                    String.Equals(x.Type, domain.Type, StringComparison.CurrentCultureIgnoreCase)
+                    string.Equals(x.Type, domain.Type, StringComparison.CurrentCultureIgnoreCase)
                     ).ToList();
                 if (records.Any())
                 {
@@ -212,7 +210,7 @@ namespace DnsClientServiceAgent
         {
             try
             {
-                var response = await _httpClient.GetAsync(RemoteScript);
+                var response = await _httpClient.GetAsync(_settings.CurrentValue.RemoteIpCheckUrl);
 
                 response.EnsureSuccessStatusCode();
 
