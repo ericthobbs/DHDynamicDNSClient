@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    <UI>
+      <!-- https://www.firegiant.com/wix/tutorial/user-interface/new-link-in-the-chain/ -->
+      <Dialog Id="ServiceSettingsDialog" Width="370" Height="270" Title="[ProductName] Setup" NoMinimize="yes">
+
+        <Control Id="Link1" Type="Hyperlink" X="45" Y="50" Width="350" Height="15">
+          <Text>Get your Api Key: <![CDATA[<a href="https://panel.dreamhost.com/?tree=home.api">https://panel.dreamhost.com/?tree=home.api</a>]]></Text>
+        </Control>
+
+        <!-- API KEY -->
+        <Control Id="ApiKeyLabel" Type="Text" X="45" Y="73" Width="100" Height="15" TabSkip="no" Text="&amp;Dreamhost Api Key:" />
+        <Control Id="ApiKeyEdit"  Type="Edit" X="45" Y="85" Width="220" Height="18" Property="APIKEY" Text="{80}" />
+
+        <!-- DNS Record Name -->
+        <Control Id="DnsNameLabel" Type="Text" X="45" Y="105" Width="100" Height="15" TabSkip="no" Text="Record &amp;Name:" />
+        <Control Id="DnsNameEdit"  Type="Edit" X="45" Y="118" Width="220" Height="18" Property="DNSNAME" Text="{80}" />
+
+        <!-- DNS Record Type -->
+        <!--
+        <Control Id="DnsTypeLabel" Type="Text" X="45" Y="138" Width="100" Height="15" TabSkip="no" Text="Record &amp;Type:" />
+        <Control Id="DnsTypeEdit" Type="Edit" X="45" Y="153" Width="220" Height="18" Property="DNSTYPE" Text="{80}" />
+        -->
+        <Control Id="DnsTypeLabel"    Type="Text"     X="45" Y="138" Width="100" Height="15" TabSkip="no" Text="Record &amp;Type:" />
+        <Control Id="DnsTypeCombobox" Type="ComboBox" ComboList="yes" X="45" Y="153" Width="100" Height="18" Property="DNS_RECORD_TYPES" >
+          <ComboBox Property="DNS_RECORD_TYPES">
+            <ListItem Value="AUTO DETECT" />
+            <ListItem Value="A" />
+            <ListItem Value="AAAA" />
+          </ComboBox>
+        </Control>
+
+        <!-- Remote Check Script -->
+        <Control Id="RemoteIpCheckUrlLabel" Type="Text" X="45" Y="186" Width="100" Height="15" TabSkip="no" Text="Remote IP Check &amp;Script Url:" />
+        <Control Id="RemoteIpCheckUrl" Type="Edit" X="45" Y="201" Width="220" Height="18" Property="REMOTEIPCHECKURL" Text="{80}" />
+
+        <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="&amp;Back">
+          <Publish Event="NewDialog" Value="LicenseAgreementDlg">1</Publish>
+        </Control>
+        
+        <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="&amp;Next">
+          <Publish Event="ValidateProductID" Value="CheckingAPIKEY">1</Publish>
+          <Publish Event="SpawnWaitDialog" Value="WaitForCostingDlg">CostingComplete = 1</Publish>
+          <Publish Event="NewDialog" Value="SetupTypeDlg">ProductID</Publish>
+        </Control>
+        <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="Cancel">
+          <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+        </Control>
+        <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="WixUI_Bmp_Banner" />
+        <Control Id="Description" Type="Text" X="25" Y="23" Width="280" Height="15" Transparent="yes" NoPrefix="yes">
+          <Text>Configure the Service</Text>
+        </Control>
+        <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+        <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes">
+          <Text>{\WixUI_Font_Title}Service Configuration</Text>
+        </Control>
+        <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
+      </Dialog>
+    </UI>
+  </Fragment>
+</Wix>

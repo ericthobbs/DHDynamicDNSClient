@@ -192,8 +192,9 @@ namespace DnsClientServiceAgent
                 }
             }
             
-            _workTimer.Change(_settings.CurrentValue.CheckIntervalInMs * 10,_settings.CurrentValue.CheckIntervalInMs * 10);
-            _logger.LogDebug($"Done with loop. Next loop in {TimeSpan.FromMilliseconds(_settings.CurrentValue.CheckIntervalInMs)}");
+            _workTimer.Change(_settings.CurrentValue.CheckIntervalInMs,_settings.CurrentValue.CheckIntervalInMs);
+            var ts = TimeSpan.FromMilliseconds(_settings.CurrentValue.CheckIntervalInMs);
+            _logger.LogDebug($"Done with loop. Next loop in {ts.Hours} Hours, {ts.Minutes} ({DateTime.Now.Add(ts)})");
         }
 
         public void Start()

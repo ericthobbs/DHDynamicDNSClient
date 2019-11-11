@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" Name="DDNS Client for Dreamhost" Language="1033" Version="1.0.0.0" Manufacturer="Eric Hobbs" UpgradeCode="9a87e6c3-36c4-4c6a-9e2d-908789fbdcf9">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+    <Condition Message="You need to be an administrator to install this product.">
+      Privileged
+    </Condition>
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MediaTemplate />
+
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
+
+    <Property Id="DNSNAME" Value="example.example.com" />
+    <Property Id="DNSTYPE" Value="A" />
+    <Property Id="APIKEY" Value="&lt;YOUR-API-KEY-HERE&gt;" />
+    <Property Id="REMOTEIPCHECKURL" Value="https://scripts.badpointer.net/test" />
+    <Property Id="DNS_RECORD_TYPES" Value="AUTO DETECT"/>
+
+    <UI Id="MyWixUI_Mondo">
+      <UIRef Id="WixUI_Mondo" />
+      <UIRef Id="WixUI_ErrorProgressText" />
+      <DialogRef Id="ServiceSettingsDialog" />
+      <Publish Dialog="LicenseAgreementDlg" Control="Next" Event="NewDialog" Value="ServiceSettingsDialog" Order="3">LicenseAccepted = "1"</Publish>
+      <Publish Dialog="SetupTypeDlg" Control="Back" Event="NewDialog" Value="ServiceSettingsDialog">1</Publish>
+      
+    </UI>
+
+		<Feature Id="ProductFeature" Title="Dynamic DNS Client" Level="1">
+			<ComponentGroupRef Id="CoreApplication" />
+		</Feature>
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+        <Directory Id="EricHobbsFolder" Name="Eric Hobbs">
+          <Directory Id="INSTALLFOLDER" Name="DDNS Client For Dreamhost" />
+        </Directory>
+			</Directory>
+		</Directory>
+	</Fragment>
+
+	<Fragment>
+		<ComponentGroup Id="CoreApplication" Directory="INSTALLFOLDER">
+			<!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
+			<!-- <Component Id="ProductComponent"> -->
+				<!-- TODO: Insert files, registry keys, and other resources here. -->
+			<!-- </Component> -->
+		</ComponentGroup>
+	</Fragment>
+</Wix>

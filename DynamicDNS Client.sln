@@ -11,6 +11,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DnsClientServiceAgent", "Dn
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamhostDnsApiTestApp", "DreamhostDnsApiTestApp\DreamhostDnsApiTestApp.csproj", "{5B0E6644-5841-44DD-B796-87F3160666A5}"
 EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "DnsAgentSetup", "DnsAgentSetup\DnsAgentSetup.wixproj", "{27E6D3DD-78A6-46F1-B13D-D2227FD59B52}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigureServiceAction", "ConfigureServiceAction\ConfigureServiceAction.csproj", "{3D159C08-BAC5-455A-A7E6-38D4D7F301EA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{752CD43F-DF46-494F-A2B6-DD72AA5BC0AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,9 +111,37 @@ Global
 		{5B0E6644-5841-44DD-B796-87F3160666A5}.Release|x64.Build.0 = Release|Any CPU
 		{5B0E6644-5841-44DD-B796-87F3160666A5}.Release|x86.ActiveCfg = Release|Any CPU
 		{5B0E6644-5841-44DD-B796-87F3160666A5}.Release|x86.Build.0 = Release|Any CPU
+		{27E6D3DD-78A6-46F1-B13D-D2227FD59B52}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{27E6D3DD-78A6-46F1-B13D-D2227FD59B52}.Debug|ARM.ActiveCfg = Debug|x86
+		{27E6D3DD-78A6-46F1-B13D-D2227FD59B52}.Debug|ARM64.ActiveCfg = Debug|x86
+		{27E6D3DD-78A6-46F1-B13D-D2227FD59B52}.Debug|x64.ActiveCfg = Debug|x86
+		{27E6D3DD-78A6-46F1-B13D-D2227FD59B52}.Debug|x86.ActiveCfg = Debug|x86
+		{27E6D3DD-78A6-46F1-B13D-D2227FD59B52}.Debug|x86.Build.0 = Debug|x86
+		{27E6D3DD-78A6-46F1-B13D-D2227FD59B52}.Release|Any CPU.ActiveCfg = Release|x86
+		{27E6D3DD-78A6-46F1-B13D-D2227FD59B52}.Release|ARM.ActiveCfg = Release|x86
+		{27E6D3DD-78A6-46F1-B13D-D2227FD59B52}.Release|ARM64.ActiveCfg = Release|x86
+		{27E6D3DD-78A6-46F1-B13D-D2227FD59B52}.Release|x64.ActiveCfg = Release|x86
+		{27E6D3DD-78A6-46F1-B13D-D2227FD59B52}.Release|x86.ActiveCfg = Release|x86
+		{27E6D3DD-78A6-46F1-B13D-D2227FD59B52}.Release|x86.Build.0 = Release|x86
+		{3D159C08-BAC5-455A-A7E6-38D4D7F301EA}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{3D159C08-BAC5-455A-A7E6-38D4D7F301EA}.Debug|ARM.ActiveCfg = Debug|x86
+		{3D159C08-BAC5-455A-A7E6-38D4D7F301EA}.Debug|ARM64.ActiveCfg = Debug|x86
+		{3D159C08-BAC5-455A-A7E6-38D4D7F301EA}.Debug|x64.ActiveCfg = Debug|x86
+		{3D159C08-BAC5-455A-A7E6-38D4D7F301EA}.Debug|x86.ActiveCfg = Debug|x86
+		{3D159C08-BAC5-455A-A7E6-38D4D7F301EA}.Debug|x86.Build.0 = Debug|x86
+		{3D159C08-BAC5-455A-A7E6-38D4D7F301EA}.Release|Any CPU.ActiveCfg = Release|x86
+		{3D159C08-BAC5-455A-A7E6-38D4D7F301EA}.Release|ARM.ActiveCfg = Release|x86
+		{3D159C08-BAC5-455A-A7E6-38D4D7F301EA}.Release|ARM64.ActiveCfg = Release|x86
+		{3D159C08-BAC5-455A-A7E6-38D4D7F301EA}.Release|x64.ActiveCfg = Release|x86
+		{3D159C08-BAC5-455A-A7E6-38D4D7F301EA}.Release|x86.ActiveCfg = Release|x86
+		{3D159C08-BAC5-455A-A7E6-38D4D7F301EA}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{27E6D3DD-78A6-46F1-B13D-D2227FD59B52} = {752CD43F-DF46-494F-A2B6-DD72AA5BC0AE}
+		{3D159C08-BAC5-455A-A7E6-38D4D7F301EA} = {752CD43F-DF46-494F-A2B6-DD72AA5BC0AE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5218E676-25D0-40BD-B9EE-5AC3D8CFBD1F}
